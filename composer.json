@@ -2,10 +2,10 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/react-starter-kit",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Web porttal for onaafrica Investment",
     "keywords": [
-        "laravel",
-        "framework"
+        "Ona",
+        "Sasa"
     ],
     "license": "MIT",
     "require": {
