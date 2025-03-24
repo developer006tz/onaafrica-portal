@@ -10,16 +10,21 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        return Inertia::render('users/index',[
-            'users' => User::query()
-                ->when($request->search, function($query, $search) {
-                    $query->where('name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%")
-                        ->orWhere('role', 'like', "%{$search}%");
-                })
-                ->when($request->role, function($query, $role) {
-                    $query->where('role', $role);
-                })
+        $filterParams = [
+            'search',
+            'name',
+            'email',
+            'phone',
+            'role',
+            'date_from',
+            'date_to',
+            'sort_by',
+            'sort_dir'
+        ];
+        
+        return Inertia::render('users/index', [
+            'filters' => $request->only($filterParams),
+            'users' => User::filter($request->only($filterParams))
                 ->paginate($request->per_page ?? 10)
                 ->withQueryString(),
         ]);
