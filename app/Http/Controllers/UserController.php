@@ -29,4 +29,11 @@ class UserController extends Controller
                 ->withQueryString(),
         ]);
     }
+
+    public function addUser()
+    {
+        return Inertia::render('users/add',[
+         'role' => $
+        ]);
+    }
 }
