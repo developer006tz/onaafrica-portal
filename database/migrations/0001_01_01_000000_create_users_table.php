@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('photo')->nullable();
-            $table->enum('role', ['manager', 'sales-manager', 'sales-officer', 'it', 'graphics-designer'])->unique();
+            $table->string('staff_number',50)->nullable()->unique();
+            $table->foreignUuid('role_id')->references('id')->on('roles');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

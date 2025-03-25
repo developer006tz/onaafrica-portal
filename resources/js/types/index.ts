@@ -40,3 +40,10 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; 
 }
+
+export interface Role {
+  id: string;
+  name: string;
+}
+
+export type Roles = Role[];

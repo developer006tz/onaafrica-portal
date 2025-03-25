@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Customer;
 use App\Models\Location;
 use App\Models\Product;
+use App\Models\Role;
 use App\Models\Sales;
 use App\Models\SalesProduct;
 use App\Models\User;
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
         DB::beginTransaction();
 
         try {
+            $this->call(RolesSeeder::class);
             $users = $this->createUsers();
             $locationIds = $this->createLocations();
             $productIds = $this->createProducts();
@@ -39,53 +41,53 @@ class DatabaseSeeder extends Seeder
     {
         $users = [];
 
-        // Create admin user
         $users['manager'] = User::create([
             'id' => Str::uuid(),
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'phone' => '1234567890',
-            'role' => 'manager',
+            'role_id' =>  Role::where('name','manager')->first()->id ,
+            'staff_number' =>  'ONA-0001' ,
             'password' => Hash::make('password'),
         ]);
 
-        // Create sales manager
         $users['salesManager'] = User::create([
             'id' => Str::uuid(),
             'name' => 'Sales Manager',
             'email' => 'sales.manager@example.com',
             'phone' => '2345678901',
-            'role' => 'sales-manager',
+            'role_id' => Role::where('name','sales-manager')->first()->id,
+            'staff_number' =>  'ONA-0002' , 
             'password' => Hash::make('password'),
         ]);
 
-        // Create sales officer
         $users['salesOfficer'] = User::create([
             'id' => Str::uuid(),
             'name' => 'Sales Officer',
             'email' => 'sales.officer@example.com',
             'phone' => '3456789012',
-            'role' => 'sales-officer',
+            'role_id' => Role::where('name','sales-officer')->first()->id,
+            'staff_number' =>  'ONA-0003' ,
             'password' => Hash::make('password'),
         ]);
 
-        // Create IT user
         $users['itUser'] = User::create([
             'id' => Str::uuid(),
             'name' => 'IT Support',
             'email' => 'it@example.com',
             'phone' => '4567890123',
-            'role' => 'it',
+            'role_id' => Role::where('name','it')->first()->id,
+            'staff_number' =>  'ONA-0004' ,
             'password' => Hash::make('password'),
         ]);
 
-        // Create graphics designer
         $users['graphicsDesigner'] = User::create([
             'id' => Str::uuid(),
             'name' => 'Graphics Designer',
             'email' => 'designer@example.com',
             'phone' => '5678901234',
-            'role' => 'graphics-designer',
+            'role_id' => Role::where('name','graphics-designer')->first()->id,
+            'staff_number' =>  'ONA-0005' ,
             'password' => Hash::make('password'),
         ]);
 
@@ -95,7 +97,7 @@ class DatabaseSeeder extends Seeder
     private function createLocations(): array
     {
         $locations = [
-            'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret',
+            'Kariakoo', 'Masaki', 'Mwenge', 'Mbezi-Beach', 'Kisarawe',
         ];
 
         $locationIds = [];

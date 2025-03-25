@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\storeStaffRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -25,15 +26,44 @@ class UserController extends Controller
         return Inertia::render('users/index', [
             'filters' => $request->only($filterParams),
             'users' => User::filter($request->only($filterParams))
+                ->with('role:id,name')
                 ->paginate($request->per_page ?? 10)
-                ->withQueryString(),
+                ->withQueryString()
+                ->through(function ($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'phone' => $user->phone,
+                        'photo' => $user->photo ? assetDomain().$user->photo : null,
+                        'role' => $user->role->name,
+                        'staff_number' => $user->staff_number,
+                        'created_at' => $user->created_at,
+                    ];
+                })
         ]);
     }
 
-    public function addUser()
+    public function addStaff()
     {
+       
         return Inertia::render('users/add',[
-         'role' => $
+         'roles' => roles()
         ]);
+    }
+
+    public function storeStaff(storeStaffRequest $request)
+    {
+        $validated = $request->validated();
+        
+        $validated['photo'] = $request->hasFile('photo') 
+            ? uploadFile($request->file('photo')) 
+            : null;
+
+        $validated['password'] = '123456';
+        
+        User::create($validated);
+
+        return to_route('staffs.index')->with('success', 'Staff added successfully');
     }
 }

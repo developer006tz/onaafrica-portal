@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -12,12 +13,17 @@ class User extends Authenticatable
 {
     use HasFactory, HasUuids, Notifiable;
 
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
     protected $fillable = [
         'name',
         'email',
+        'staff_number',
         'phone',
         'photo',
-        'role',
+        'role_id',
         'password',
     ];
 
@@ -32,6 +38,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 
     public function scopeFilter($query, array $filters = [])
@@ -49,7 +60,9 @@ class User extends Authenticatable
         });
 
         $query->when($filters['role'] ?? null, function ($query, $role) {
-            $query->where('role', $role);
+            $query->whereHas('role', function($q) use ($role) {
+                $q->where('name', $role);
+            });
         });
 
         $query->when($filters['search'] ?? null, function ($query, $search) {
@@ -73,16 +86,18 @@ class User extends Authenticatable
 
             $direction = in_array(strtolower($direction), ['asc', 'desc']) ? $direction : 'asc';
 
-            $allowedSortColumns = ['name', 'email', 'phone', 'role', 'created_at'];
+            $allowedSortColumns = ['name', 'email', 'phone', 'created_at'];
             if (in_array($sortBy, $allowedSortColumns)) {
                 $query->orderBy($sortBy, $direction);
+            } elseif ($sortBy === 'role') {
+                $query->join('roles', 'users.role_id', '=', 'roles.id')
+                    ->orderBy('roles.name', $direction)
+                    ->select('users.*');
             }
         });
 
         return $query;
     }
 
-    public $incrementing = false;
 
-    protected $keyType = 'string';
 }
