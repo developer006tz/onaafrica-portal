@@ -9,6 +9,12 @@ function roles()
 
 }
 
+function isAdmin()
+{
+    $user = auth()->user();
+    return in_array($user->role->name, ['it', 'admin', 'manager']);
+}
+
 function assetDomain()
 {
     return 'https://assets.onaafricainvestment.com/onaafrica-portal/';

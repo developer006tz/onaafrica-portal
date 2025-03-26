@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteStaffRequest;
 use App\Http\Requests\storeStaffRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -65,5 +66,10 @@ class UserController extends Controller
         User::create($validated);
 
         return to_route('staffs.index')->with('success', 'Staff added successfully');
+    }
+
+    public function deleteStaff(DeleteStaffRequest $request)
+    {
+        
     }
 }
