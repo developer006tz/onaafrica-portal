@@ -40,3 +40,19 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; 
 }
+
+export interface Role {
+  id: string;
+  name: string;
+}
+
+export type Roles = Role[];
+
+export interface Customer {
+    id: string;
+    name: string;
+    email?: string;
+    phone?: string;
+    created_by?: string;
+    created_at: string;
+}

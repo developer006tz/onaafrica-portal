@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-   
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
@@ -14,12 +13,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('contact_person')->nullable();
             $table->string('email')->nullable();
-            $table->string('phone');
-            $table->foreignUuid('location_id')->constrained('locations','id')->onDelete('RESTRICT');
+            $table->string('phone')->nullable();
+            $table->foreignUuid('location_id')->nullable()->constrained('locations', 'id')->onDelete('RESTRICT');
+            $table->foreignUuid('created_by')->nullable()->constrained('users', 'id')->onDelete('SET NULL');
             $table->timestamps();
         });
     }
-
 
     public function down(): void
     {
