@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->foreignUuid('location_id')->nullable()->constrained('locations', 'id')->onDelete('RESTRICT');
+            $table->foreignUuid('created_by')->nullable()->constrained('users', 'id')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

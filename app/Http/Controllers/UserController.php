@@ -27,7 +27,6 @@ class UserController extends Controller
         return Inertia::render('users/index', [
             'filters' => $request->only($filterParams),
             'users' => User::filter($request->only($filterParams))
-                ->with('role:id,name')
                 ->paginate($request->per_page ?? 10)
                 ->withQueryString()
                 ->through(function ($user) {

@@ -47,3 +47,12 @@ export interface Role {
 }
 
 export type Roles = Role[];
+
+export interface Customer {
+    id: string;
+    name: string;
+    email?: string;
+    phone?: string;
+    created_by?: string;
+    created_at: string;
+}

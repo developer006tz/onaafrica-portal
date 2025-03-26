@@ -15,6 +15,7 @@ class Customer extends Model
         'email',
         'phone',
         'location_id',
+        'created_by'
     ];
 
     protected $keyType = 'string';
@@ -77,5 +78,10 @@ class Customer extends Model
         });
 
         return $query;
+    }
+
+    public function createdBy() {
+        
+     return $this->belongsTo(User::class,'created_by');
     }
 }
