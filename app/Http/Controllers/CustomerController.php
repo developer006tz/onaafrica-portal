@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddCustomerRequest;
 use App\Models\Customer;
+use App\Models\Sales;
+use App\Models\SalesProduct;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,10 +19,12 @@ class CustomerController extends Controller
             'email',
             'phone',
         ];
+
+        // dd(Customer::get());
         
         return Inertia::render('customers/index',[
             'filters' => $request->only($filterParams),
-            'users' => Customer::filter($request->only($filterParams))
+            'customers' => Customer::filter($request->only($filterParams))
                 ->paginate($request->per_page ?? 10)
                 ->withQueryString()
                 ->through(function ($customer) {
@@ -49,8 +53,9 @@ class CustomerController extends Controller
     public function storeCustomer(AddCustomerRequest $request){
         $validated = $request->validated();
         $validated['created_by'] = $request->user()->id;
-        
+
         Customer::create($validated);
+
         return redirect()->back()->with('success','customer addedd');
         
     }
