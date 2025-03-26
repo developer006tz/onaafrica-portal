@@ -2,31 +2,10 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Default Filesystem Disk
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the default filesystem disk that should be used
-    | by the framework. The "local" disk, as well as a variety of cloud
-    | based disks are available to your application for file storage.
-    |
-    */
-
+   
     'default' => env('FILESYSTEM_DISK', 'local'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Filesystem Disks
-    |--------------------------------------------------------------------------
-    |
-    | Below you may configure as many filesystem disks as necessary, and you
-    | may even configure multiple disks for the same driver. Examples for
-    | most supported storage drivers are configured here for reference.
-    |
-    | Supported drivers: "local", "ftp", "sftp", "s3"
-    |
-    */
+ 
 
     'disks' => [
 
@@ -60,18 +39,18 @@ return [
             'report' => false,
         ],
 
+        'r2' => [
+        'driver' => 's3',
+        'key' => '411b3c7becafbf54bc59f4550f82e955',
+        'secret' => '3f7b553dfdd0f67c63eedc2b993ff79997f5e6ba132dbf81921fe7f26c3a06ef',
+        'region' => 'us-east-1',
+        'bucket' => 'onaafrica-portal',
+        'endpoint' => 'https://eb0253e51e133aa9e90121342279d1c9.r2.cloudflarestorage.com/onaafrica-portal',
+        'alternative-endpoint'=> 'https://eb0253e51e133aa9e90121342279d1c9.eu.r2.cloudflarestorage.com'
     ],
+    
 
-    /*
-    |--------------------------------------------------------------------------
-    | Symbolic Links
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the symbolic links that will be created when the
-    | `storage:link` Artisan command is executed. The array keys should be
-    | the locations of the links and the values should be their targets.
-    |
-    */
+    ],
 
     'links' => [
         public_path('storage') => storage_path('app/public'),

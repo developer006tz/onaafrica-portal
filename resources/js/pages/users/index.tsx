@@ -21,11 +21,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
+import { formatDate } from '@/lib/helpers';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
-    title: 'Users',
-    href: '/users',
+    title: 'Staffs',
+    href: '/staffs',
   },
 ];
 
@@ -43,14 +44,6 @@ interface UsersProps {
     }>;
   };
 }
-
-const roleOptions = [
-    { value: 'manager', label: 'Manager' },
-    { value: 'sales-manager', label: 'Sales Manager' },
-    { value: 'sales-officer', label: 'Sales Officer' },
-    { value: 'it', label: 'IT' },
-    { value: 'graphics-designer', label: 'Graphics Designer' }
-  ];
   
 
 export default function UserScreen({ users }: UsersProps) {
@@ -67,25 +60,20 @@ export default function UserScreen({ users }: UsersProps) {
     return colors[role] || 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300';
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Users" />
-      <Card className="flex h-full flex-1 flex-col gap-4">
+      <Head title="Staffs" />
+      <Card className="flex h-full flex-1 flex-col gap-4 m-4">
         <CardHeader className="p-6 pb-0">
           <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
             <CardTitle className="text-2xl font-bold">Staff Management</CardTitle>
-            <Button className="flex items-center gap-2">
-              <UserPlus size={16} />
-              <span>Add New Staff</span>
-            </Button>
+            <Link href={route('staffs.add')}>
+              <Button className="flex items-center gap-2">
+                <UserPlus size={16} />
+                <span>Add New Staff</span>
+              </Button>
+            </Link>
           </div>
         </CardHeader>
 

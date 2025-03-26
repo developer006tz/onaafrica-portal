@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Customer;
 use App\Models\Location;
 use App\Models\Product;
+use App\Models\Role;
 use App\Models\Sales;
 use App\Models\SalesProduct;
-use App\Models\Customer;
+use App\Models\User;
+use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-use Exception;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,82 +21,83 @@ class DatabaseSeeder extends Seeder
     {
         // Using transactions to ensure data integrity
         DB::beginTransaction();
-        
+
         try {
+            $this->call(RolesSeeder::class);
             $users = $this->createUsers();
             $locationIds = $this->createLocations();
             $productIds = $this->createProducts();
             $customers = $this->createCustomers($locationIds);
             $this->createSales($customers, $productIds, $users);
-            
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             $this->command->error("Seeding failed: {$e->getMessage()}");
         }
     }
-    
+
     private function createUsers(): array
     {
         $users = [];
-        
-        // Create admin user
+
         $users['manager'] = User::create([
             'id' => Str::uuid(),
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'phone' => '1234567890',
-            'role' => 'manager',
+            'role_id' =>  Role::where('name','manager')->first()->id ,
+            'staff_number' =>  'ONA-0001' ,
             'password' => Hash::make('password'),
         ]);
 
-        // Create sales manager
         $users['salesManager'] = User::create([
             'id' => Str::uuid(),
             'name' => 'Sales Manager',
             'email' => 'sales.manager@example.com',
             'phone' => '2345678901',
-            'role' => 'sales-manager',
+            'role_id' => Role::where('name','sales-manager')->first()->id,
+            'staff_number' =>  'ONA-0002' , 
             'password' => Hash::make('password'),
         ]);
 
-        // Create sales officer
         $users['salesOfficer'] = User::create([
             'id' => Str::uuid(),
             'name' => 'Sales Officer',
             'email' => 'sales.officer@example.com',
             'phone' => '3456789012',
-            'role' => 'sales-officer',
+            'role_id' => Role::where('name','sales-officer')->first()->id,
+            'staff_number' =>  'ONA-0003' ,
             'password' => Hash::make('password'),
         ]);
 
-        // Create IT user
         $users['itUser'] = User::create([
             'id' => Str::uuid(),
             'name' => 'IT Support',
             'email' => 'it@example.com',
             'phone' => '4567890123',
-            'role' => 'it',
+            'role_id' => Role::where('name','it')->first()->id,
+            'staff_number' =>  'ONA-0004' ,
             'password' => Hash::make('password'),
         ]);
 
-        // Create graphics designer
         $users['graphicsDesigner'] = User::create([
             'id' => Str::uuid(),
             'name' => 'Graphics Designer',
             'email' => 'designer@example.com',
             'phone' => '5678901234',
-            'role' => 'graphics-designer',
+            'role_id' => Role::where('name','graphics-designer')->first()->id,
+            'staff_number' =>  'ONA-0005' ,
             'password' => Hash::make('password'),
         ]);
-        
+
         return $users;
     }
-    
+
     private function createLocations(): array
     {
         $locations = [
-            'Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Eldoret'
+            'Kariakoo', 'Masaki', 'Mwenge', 'Mbezi-Beach', 'Kisarawe',
         ];
 
         $locationIds = [];
@@ -106,10 +108,10 @@ class DatabaseSeeder extends Seeder
             ]);
             $locationIds[] = $location->id;
         }
-        
+
         return $locationIds;
     }
-    
+
     private function createProducts(): array
     {
         $products = [
@@ -129,10 +131,10 @@ class DatabaseSeeder extends Seeder
             ]);
             $productIds[] = $product->id;
         }
-        
+
         return $productIds;
     }
-    
+
     private function createCustomers(array $locationIds): array
     {
         $customers = [];
@@ -142,21 +144,21 @@ class DatabaseSeeder extends Seeder
                 'name' => "Customer $i",
                 'contact_person' => "Contact Person $i", // Adding the contact person
                 'email' => "customer$i@example.com",
-                'phone' => "9876543" . str_pad($i, 3, '0', STR_PAD_LEFT),
+                'phone' => '9876543'.str_pad($i, 3, '0', STR_PAD_LEFT),
                 'location_id' => $locationIds[array_rand($locationIds)],
             ]);
             $customers[] = $customer;
         }
-        
+
         return $customers;
     }
-    
+
     private function createSales(array $customers, array $productIds, array $users): void
     {
         for ($i = 0; $i < 20; $i++) {
             $isNewCustomer = rand(0, 1) === 1 ? 'YES' : 'NO'; // Using 'YES'/'NO' instead of boolean
             $customer = $customers[array_rand($customers)];
-            
+
             $sale = Sales::create([
                 'id' => Str::uuid(),
                 'customer_id' => $customer->id,
@@ -168,21 +170,21 @@ class DatabaseSeeder extends Seeder
             $this->createSalesProducts($sale->id, $productIds);
         }
     }
-    
+
     private function createSalesProducts(string $salesId, array $productIds): void
     {
         // Add products to the sale
         $numProducts = rand(1, 3);
         $usedProducts = [];
-        
+
         for ($j = 0; $j < $numProducts; $j++) {
             // Ensure we don't add the same product twice to a sale
             do {
                 $productIndex = array_rand($productIds);
             } while (in_array($productIndex, $usedProducts));
-            
+
             $usedProducts[] = $productIndex;
-            
+
             SalesProduct::create([
                 'id' => Str::uuid(),
                 'sales_id' => $salesId,
