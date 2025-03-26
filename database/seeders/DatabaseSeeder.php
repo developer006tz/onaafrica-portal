@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
         try {
             $this->call(RolesSeeder::class);
             $users = $this->createUsers();
-            $locationIds = $this->createLocations();
-            $productIds = $this->createProducts();
-            $customers = $this->createCustomers($locationIds);
-            $this->createSales($customers, $productIds, $users);
+            // $locationIds = $this->createLocations();
+            // $productIds = $this->createProducts();
+            // $customers = $this->createCustomers($locationIds);
+            // $this->createSales($customers, $productIds, $users);
 
             DB::commit();
         } catch (Exception $e) {
@@ -45,52 +45,12 @@ class DatabaseSeeder extends Seeder
             'id' => Str::uuid(),
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'phone' => '1234567890',
+            'phone' => '255746828843',
             'role_id' =>  Role::where('name','manager')->first()->id ,
             'staff_number' =>  'ONA-0001' ,
             'password' => Hash::make('password'),
         ]);
-
-        $users['salesManager'] = User::create([
-            'id' => Str::uuid(),
-            'name' => 'Sales Manager',
-            'email' => 'sales.manager@example.com',
-            'phone' => '2345678901',
-            'role_id' => Role::where('name','sales-manager')->first()->id,
-            'staff_number' =>  'ONA-0002' , 
-            'password' => Hash::make('password'),
-        ]);
-
-        $users['salesOfficer'] = User::create([
-            'id' => Str::uuid(),
-            'name' => 'Sales Officer',
-            'email' => 'sales.officer@example.com',
-            'phone' => '3456789012',
-            'role_id' => Role::where('name','sales-officer')->first()->id,
-            'staff_number' =>  'ONA-0003' ,
-            'password' => Hash::make('password'),
-        ]);
-
-        $users['itUser'] = User::create([
-            'id' => Str::uuid(),
-            'name' => 'IT Support',
-            'email' => 'it@example.com',
-            'phone' => '4567890123',
-            'role_id' => Role::where('name','it')->first()->id,
-            'staff_number' =>  'ONA-0004' ,
-            'password' => Hash::make('password'),
-        ]);
-
-        $users['graphicsDesigner'] = User::create([
-            'id' => Str::uuid(),
-            'name' => 'Graphics Designer',
-            'email' => 'designer@example.com',
-            'phone' => '5678901234',
-            'role_id' => Role::where('name','graphics-designer')->first()->id,
-            'staff_number' =>  'ONA-0005' ,
-            'password' => Hash::make('password'),
-        ]);
-
+        
         return $users;
     }
 
