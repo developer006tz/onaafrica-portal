@@ -1,12 +1,11 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type User } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head,Link,Deferred } from '@inertiajs/react';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Eye, Edit, Trash2, UserPlus, Filter, Search, MoreHorizontal } from 'lucide-react';
 import { Pagination } from '@/components/ui/pagination';
-import { Link } from '@inertiajs/react';
 import {
   Card,
   CardContent,
@@ -22,6 +21,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { formatDate } from '@/lib/helpers';
+import { LoadingSpinner } from '@/components/shared/loading-spinner';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -64,6 +64,7 @@ export default function UserScreen({ users }: UsersProps) {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Staffs" />
+      <Deferred data="users" fallback={<LoadingSpinner />}>
       <Card className="flex h-full flex-1 flex-col gap-4 m-4">
         <CardHeader className="p-6 pb-0">
           <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
@@ -322,6 +323,7 @@ export default function UserScreen({ users }: UsersProps) {
           </div>
         </CardContent>
       </Card>
+      </Deferred>
     </AppLayout>
   );
 }

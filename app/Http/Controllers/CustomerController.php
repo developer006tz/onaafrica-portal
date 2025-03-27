@@ -20,7 +20,6 @@ class CustomerController extends Controller
             'phone',
         ];
 
-        // dd(Customer::get());
         
         return Inertia::render('customers/index',[
             'filters' => $request->only($filterParams),
@@ -34,7 +33,7 @@ class CustomerController extends Controller
                         'email' => $customer->email,
                         'phone' => $customer->phone,
                         'contact_person' => $customer->contact_person,
-                        'created_by' => $customer->createdBy->name ?? null,
+                        'created_by' => $customer->createdBy?->name ?? null,
                         'created_at' => $customer->created_at,
                     ];
                 })
