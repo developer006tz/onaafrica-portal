@@ -46,6 +46,7 @@ export function AddPropertyDrawer( { buttonVariant='default' }: ButonVariant) {
                                  id="name"
                                  type="text" 
                                  value={data.name} 
+                                 className="border bg-black/40"
                                  onChange={(e) => setData('name', e.target.value)} />
                                 {errors.name && <FormMessage>{errors.name}</FormMessage>}
                             </div>

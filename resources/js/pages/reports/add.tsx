@@ -1,3 +1,4 @@
+import { FormDateInput } from '@/components/form/FormDateInput';
 import { AddCustomerDrawer } from '@/components/shared/add-customer-drawer';
 import { AddPropertyDrawer } from '@/components/shared/add-property-drawer';
 import { Button } from '@/components/ui/button';
@@ -86,7 +87,7 @@ export default function AddStaffDailyReportsScreen({
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
                                         <FormLabel htmlFor="customer_id">Customer</FormLabel>
-                                        <AddCustomerDrawer buttonVariant='outline' />
+                                        <AddCustomerDrawer buttonVariant="outline" />
                                     </div>
                                     <Select value={data.customer_id} onValueChange={(value) => setData('customer_id', value)}>
                                         <SelectTrigger>
@@ -107,7 +108,7 @@ export default function AddStaffDailyReportsScreen({
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
                                         <FormLabel htmlFor="property_id">Property</FormLabel>
-                                        <AddPropertyDrawer buttonVariant='outline' />
+                                        <AddPropertyDrawer buttonVariant="outline" />
                                     </div>
                                     <Select value={data.property_id} onValueChange={(value) => setData('property_id', value)}>
                                         <SelectTrigger>
@@ -163,9 +164,7 @@ export default function AddStaffDailyReportsScreen({
 
                                 {/* Date */}
                                 <div className="space-y-2">
-                                    <FormLabel htmlFor="date">Date</FormLabel>
-                                    <Input id="date" type="date" value={data.date} onChange={(e) => setData('date', e.target.value)} />
-                                    {errors.date && <FormMessage>{errors.date}</FormMessage>}
+                                    <FormDateInput label="Date" value={data.date} onChange={(value) => setData('date', value)} error={errors.date} />
                                 </div>
                             </div>
 
