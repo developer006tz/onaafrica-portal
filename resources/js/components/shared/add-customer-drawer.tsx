@@ -48,9 +48,9 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
         </Button>
       </DrawerTrigger>
       <DrawerPortal>
-        <DrawerOverlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50" />
+        <DrawerOverlay className="fixed inset-0 bg-gray-50 dark:bg-black/40 backdrop-blur-sm z-50" />
         
-        <DrawerContent className="bg-white/10">
+        <DrawerContent className="bg-white dark:bg-white/10">
           <DrawerHeader className="z-40">
             <DrawerTitle className="text-lg font-normal text-center">Add new customer</DrawerTitle>
           </DrawerHeader>
@@ -60,7 +60,7 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
                   <FormLabel htmlFor="name">Customer name</FormLabel>
                   <Input
                     id="name"
-                    className="border bg-black/40"
+                    className="border bg-gray-50 dark:bg-black/40"
                     type="text"
                     value={data.name}
                     onChange={e => setData('name', e.target.value)}
@@ -72,7 +72,7 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
                   <FormLabel htmlFor="contact_person">Contact Person</FormLabel>
                   <Input
                     id="contact_person"
-                    className="border bg-black/40"
+                    className="border bg-gray-50 dark:bg-black/40"
                     type="text"
                     value={data.contact_person}
                     onChange={e => setData('contact_person', e.target.value)}
@@ -84,7 +84,7 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input
                       id="email"
-                      className="border bg-black/40"
+                      className="border bg-gray-50 dark:bg-black/40"
                       type="email"
                       value={data.email}
                       onChange={e => setData('email', e.target.value)}
@@ -96,7 +96,7 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
                     <FormLabel htmlFor="phone">Phone</FormLabel>
                     <Input
                       id="phone"
-                      className="border bg-black/40"
+                      className="border bg-gray-50 dark:bg-black/40"
                       type="text"
                       value={data.phone}
                       onChange={e => setData('phone', e.target.value)}

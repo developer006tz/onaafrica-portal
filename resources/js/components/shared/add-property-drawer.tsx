@@ -34,7 +34,7 @@ export function AddPropertyDrawer( { buttonVariant='default' }: ButonVariant) {
             </DrawerTrigger>
             <DrawerPortal>
                 <DrawerOverlay className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" />
-                <DrawerContent className="bg-white/10">
+                <DrawerContent className="bg-white dark:bg-white/10">
                     <DrawerHeader className="z-40">
                         <DrawerTitle className="text-lg font-normal text-center">Add new Property</DrawerTitle>
                     </DrawerHeader>
@@ -46,7 +46,7 @@ export function AddPropertyDrawer( { buttonVariant='default' }: ButonVariant) {
                                  id="name"
                                  type="text" 
                                  value={data.name} 
-                                 className="border bg-black/40"
+                                 className="border  bg-gray-50 dark:bg-black/40"
                                  onChange={(e) => setData('name', e.target.value)} />
                                 {errors.name && <FormMessage>{errors.name}</FormMessage>}
                             </div>

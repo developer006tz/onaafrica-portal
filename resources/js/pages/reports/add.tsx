@@ -9,8 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { FormLabel, FormMessage } from '@/lib/form-helper';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { User, type BreadcrumbItem } from '@/types';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { ArrowLeft, Plus, Trash } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -31,6 +31,10 @@ export default function AddStaffDailyReportsScreen({
     customers: { id: string; name: string }[];
     properties: { id: string; name: string }[];
 }) {
+
+    const { auth } = usePage<{ auth: { user: User } }>().props;
+
+
     const { data, setData, post, processing, errors } = useForm({
         staff_id: '',
         customer_id: '',
@@ -72,7 +76,7 @@ export default function AddStaffDailyReportsScreen({
                 <Card className="flex h-full flex-1 flex-col">
                     <CardHeader className="p-4 pb-0 sm:p-6">
                         <div className="flex w-full flex-col justify-between gap-4 sm:flex-row sm:items-center">
-                            <CardTitle className="text-xl font-semibold sm:text-2xl">Add Daily Report</CardTitle>
+                            <CardTitle className="text-xl font-semibold sm:text-2xl">Add daily report - {auth.user.name} </CardTitle>
                             <Link href={route('reports.index')} className="">
                                 <Button className="flex items-center gap-2" variant="default">
                                     <ArrowLeft className="h-5 w-5" />
@@ -151,7 +155,7 @@ export default function AddStaffDailyReportsScreen({
 
                                 {/* Time From */}
                                 <FormTimeInput
-                                    label="Time From"
+                                    label="Start Time (24-hour format)"
                                     id="time_from"
                                     value={data.time_from}
                                     onChange={(value) => setData('time_from', value)}
@@ -160,7 +164,7 @@ export default function AddStaffDailyReportsScreen({
 
                                 {/* Time To */}
                                 <FormTimeInput
-                                    label="Time To"
+                                    label="End Time (24-hour format)"
                                     id="time_to"
                                     value={data.time_to}
                                     onChange={(value) => setData('time_to', value)}

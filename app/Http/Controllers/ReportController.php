@@ -55,14 +55,10 @@ class ReportController extends Controller
     public function storeReport(AddReportRequest $request)
     {
         $validated = $request->validated();
+        
+        $validated['staff_id'] = $request->user()->id;
 
-        // Set staff_id to current user if not provided
-        if (!isset($validated['staff_id'])) {
-            $validated['staff_id'] = $request->user()->id;
-        }
-
-        // Create the daily report
-        $report = DailyReport::create($validated);
+        DailyReport::create($validated);
 
         return redirect()->route('reports.index')
             ->with('success', 'Report added successfully');
