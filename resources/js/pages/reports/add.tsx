@@ -1,4 +1,5 @@
-import { FormDateInput } from '@/components/form/FormDateInput';
+
+import { FormDateInput, FormTimeInput } from '@/components/form';
 import { AddCustomerDrawer } from '@/components/shared/add-customer-drawer';
 import { AddPropertyDrawer } from '@/components/shared/add-property-drawer';
 import { Button } from '@/components/ui/button';
@@ -149,18 +150,22 @@ export default function AddStaffDailyReportsScreen({
                                 </div>
 
                                 {/* Time From */}
-                                <div className="space-y-2">
-                                    <FormLabel htmlFor="time_from">Time From</FormLabel>
-                                    <Input id="time_from" type="time" value={data.time_from} onChange={(e) => setData('time_from', e.target.value)} />
-                                    {errors.time_from && <FormMessage>{errors.time_from}</FormMessage>}
-                                </div>
+                                <FormTimeInput
+                                    label="Time From"
+                                    id="time_from"
+                                    value={data.time_from}
+                                    onChange={(value) => setData('time_from', value)}
+                                    error={errors.time_from}
+                                />
 
                                 {/* Time To */}
-                                <div className="space-y-2">
-                                    <FormLabel htmlFor="time_to">Time To</FormLabel>
-                                    <Input id="time_to" type="time" value={data.time_to} onChange={(e) => setData('time_to', e.target.value)} />
-                                    {errors.time_to && <FormMessage>{errors.time_to}</FormMessage>}
-                                </div>
+                                <FormTimeInput
+                                    label="Time To"
+                                    id="time_to"
+                                    value={data.time_to}
+                                    onChange={(value) => setData('time_to', value)}
+                                    error={errors.time_to}
+                                />
 
                                 {/* Date */}
                                 <div className="space-y-2">
