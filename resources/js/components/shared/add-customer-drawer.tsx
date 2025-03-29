@@ -106,7 +106,7 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
               </div>
             </form>
 
-            <DrawerFooter className="max-w-3xl mx-auto mb-4 w-full">
+            <DrawerFooter className="max-w-3xl mx-auto mb-8 w-full">
               <div className="grid grid-cols-2 gap-4">
                 <Button type="submit" disabled={processing} onClick={handleSubmit}>
                   {processing ? "Submitting..." : "Submit"}

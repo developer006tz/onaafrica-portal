@@ -60,6 +60,8 @@ class UserController extends Controller
             ? uploadFile($request->file('photo')) 
             : null;
 
+        $validated['name'] = strtolower(ucwords($request->name) );
+
         $validated['password'] = '123456';
         
         User::create($validated);

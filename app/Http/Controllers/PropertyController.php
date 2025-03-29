@@ -17,7 +17,7 @@ class PropertyController extends Controller
     {
         $validated = $request->validated();
 
-        $property = Property::create($validated);
+        Property::create($validated);
 
         return redirect()->back()->with('success','property created successfully');
     }
