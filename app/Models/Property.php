@@ -16,4 +16,13 @@ class Property extends Model
     protected $keyType = 'string';
 
     public $incrementing = false;
+
+    public function scopeFilter($query, array $filters = [])
+    {
+        $query->when($filters['name'] ?? null, function ($query, $name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        });
+
+        return $query;
+    }
 }

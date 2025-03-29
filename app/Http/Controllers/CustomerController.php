@@ -55,7 +55,7 @@ class CustomerController extends Controller
 
         Customer::create($validated);
 
-        return redirect()->back()->with('success','customer addedd');
+        return redirect()->back()->with('success','customer created successfully');
         
     }
 

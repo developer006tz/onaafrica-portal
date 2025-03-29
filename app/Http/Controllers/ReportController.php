@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddReportRequest;
+use App\Models\Customer;
 use App\Models\DailyReport;
+use App\Models\Property;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -34,10 +36,19 @@ class ReportController extends Controller
         ]);
 
     }
-    public function addReport()
+    public function addReport(Request $request)
     {
+        $filterParams = [
+            'name'
+        ];
         return Inertia::render('reports/add', [
-
+            'customers' => Customer::filter($request->only($filterParams))
+                ->select('id', 'name')
+                ->get(),
+            'properties' => Property::filter($request->only($filterParams))
+                ->select('id', 'name')
+                ->get(),
+            'filters' => $request->only($filterParams)
         ]);
     }
 

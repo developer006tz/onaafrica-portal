@@ -56,3 +56,7 @@ export interface Customer {
     created_by?: string;
     created_at: string;
 }
+
+export interface ButonVariant {
+    buttonVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
+}

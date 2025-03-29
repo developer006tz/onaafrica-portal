@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePropertyRequest;
 use App\Models\Property;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class PropertyController extends Controller
 {
@@ -13,18 +13,12 @@ class PropertyController extends Controller
         return Property::all();
     }
 
-    public function storeProperty(Request $request)
+    public function storeProperty(StorePropertyRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-        ]);
+        $validated = $request->validated();
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $property = Property::create($validated);
 
-        $property = Property::create($validator->validated());
-
-        return response()->json($property, 201);
+        return redirect()->back()->with('success','property created successfully');
     }
 }

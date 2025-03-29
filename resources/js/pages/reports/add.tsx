@@ -10,7 +10,6 @@ import { FormLabel, FormMessage } from '@/lib/form-helper';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Plus, Trash } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,20 +22,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface Customer {
-    id: string;
-    name: string;
-}
-
-interface Property {
-    id: string;
-    name: string;
-}
-
-export default function AddStaffDailyReportsScreen() {
-    const [customers, setCustomers] = useState<Customer[]>([]);
-    const [properties, setProperties] = useState<Property[]>([]);
-
+export default function AddStaffDailyReportsScreen({
+    customers,
+    properties,
+}: {
+    customers: { id: string; name: string }[];
+    properties: { id: string; name: string }[];
+}) {
     const { data, setData, post, processing, errors } = useForm({
         staff_id: '',
         customer_id: '',
@@ -49,28 +41,6 @@ export default function AddStaffDailyReportsScreen() {
         status: 'PENDING',
         date: new Date().toISOString().split('T')[0],
     });
-
-    useEffect(() => {
-        // Fetch customers
-        fetch('/api/customers')
-            .then((response) => response.json())
-            .then((data) => {
-                setCustomers(data);
-            })
-            .catch((error) => {
-                console.error('Error fetching customers:', error);
-            });
-
-        // Fetch properties
-        fetch('/api/properties')
-            .then((response) => response.json())
-            .then((data) => {
-                setProperties(data);
-            })
-            .catch((error) => {
-                console.error('Error fetching properties:', error);
-            });
-    }, []);
 
     const addPhoneNumber = () => {
         setData('customer_phones', [...data.customer_phones, '']);
@@ -116,7 +86,7 @@ export default function AddStaffDailyReportsScreen() {
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
                                         <FormLabel htmlFor="customer_id">Customer</FormLabel>
-                                        <AddCustomerDrawer />
+                                        <AddCustomerDrawer buttonVariant='outline' />
                                     </div>
                                     <Select value={data.customer_id} onValueChange={(value) => setData('customer_id', value)}>
                                         <SelectTrigger>
@@ -137,7 +107,7 @@ export default function AddStaffDailyReportsScreen() {
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between">
                                         <FormLabel htmlFor="property_id">Property</FormLabel>
-                                        <AddPropertyDrawer />
+                                        <AddPropertyDrawer buttonVariant='outline' />
                                     </div>
                                     <Select value={data.property_id} onValueChange={(value) => setData('property_id', value)}>
                                         <SelectTrigger>
