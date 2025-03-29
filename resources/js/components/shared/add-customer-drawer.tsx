@@ -3,19 +3,23 @@ import {
   DrawerClose,
   DrawerContent,
   DrawerFooter,
+  DrawerHeader,
   DrawerOverlay,
+  DrawerTitle,
   DrawerPortal,
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Button } from "../ui/button"
 import { UserPlus } from "lucide-react"
 import { useForm } from "@inertiajs/react";
-import {  FormLabel, FormMessage } from "@/lib/form-helper";
+import { FormLabel, FormMessage } from "@/lib/form-helper";
 import { Input } from "../ui/input";
 import { useRef } from "react";
+import { ButonVariant } from "@/types";
 
 
-export function AddCustomerDrawer() {
+
+export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const { data, setData, post, processing, errors, reset } = useForm({
@@ -27,7 +31,7 @@ export function AddCustomerDrawer() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    post('/customers/store', {
+    post(route('customers.store'), {
       onSuccess: () => {
         reset();
         closeRef.current?.click();
@@ -38,20 +42,25 @@ export function AddCustomerDrawer() {
   return (
       <Drawer>
       <DrawerTrigger asChild>
-      <Button className="flex items-center gap-2">
+      <Button variant={buttonVariant} className="flex items-center gap-2">
               <UserPlus size={16} />
               <span>Add Customer</span>
         </Button>
       </DrawerTrigger>
       <DrawerPortal>
-        <DrawerOverlay className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50" />
-        <DrawerContent>
-          <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl px-4 mx-auto py-5">
+        <DrawerOverlay className="fixed inset-0 bg-gray-50 dark:bg-black/40 backdrop-blur-sm z-50" />
+        
+        <DrawerContent className="bg-white dark:bg-white/10">
+          <DrawerHeader className="z-40">
+            <DrawerTitle className="text-lg font-normal text-center">Add new customer</DrawerTitle>
+          </DrawerHeader>
+          <form onSubmit={handleSubmit} className="space-y-8 min-w-3xl max-w-6xl px-4 mx-auto py-5">
               <div className="space-y-4">
                 <div className="space-y-2">
                   <FormLabel htmlFor="name">Customer name</FormLabel>
                   <Input
                     id="name"
+                    className="border bg-gray-50 dark:bg-black/40"
                     type="text"
                     value={data.name}
                     onChange={e => setData('name', e.target.value)}
@@ -63,6 +72,7 @@ export function AddCustomerDrawer() {
                   <FormLabel htmlFor="contact_person">Contact Person</FormLabel>
                   <Input
                     id="contact_person"
+                    className="border bg-gray-50 dark:bg-black/40"
                     type="text"
                     value={data.contact_person}
                     onChange={e => setData('contact_person', e.target.value)}
@@ -70,11 +80,11 @@ export function AddCustomerDrawer() {
                   {errors.contact_person && <FormMessage>{errors.contact_person}</FormMessage>}
                 </div>
                 
-                <div className="grid grid-cols-12 gap-4">
-                  <div className="col-span-6 space-y-2">
+                <div className=" space-y-2">
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input
                       id="email"
+                      className="border bg-gray-50 dark:bg-black/40"
                       type="email"
                       value={data.email}
                       onChange={e => setData('email', e.target.value)}
@@ -82,27 +92,29 @@ export function AddCustomerDrawer() {
                     {errors.email && <FormMessage>{errors.email}</FormMessage>}
                   </div>
                   
-                  <div className="col-span-6 space-y-2">
+                  <div className=" space-y-2">
                     <FormLabel htmlFor="phone">Phone</FormLabel>
                     <Input
                       id="phone"
+                      className="border bg-gray-50 dark:bg-black/40"
                       type="text"
                       value={data.phone}
                       onChange={e => setData('phone', e.target.value)}
                     />
                     {errors.phone && <FormMessage>{errors.phone}</FormMessage>}
                   </div>
-                </div>
               </div>
             </form>
 
-            <DrawerFooter className="max-w-3xl mx-auto flex flex-col w-full justify-end gap-2">
-              <Button type="submit" disabled={processing} onClick={handleSubmit}>
-                {processing ? "Submitting..." : "Submit"}
-              </Button>
-              <DrawerClose ref={closeRef} asChild>
-                <Button variant="outline">Cancel</Button>
-              </DrawerClose>
+            <DrawerFooter className="max-w-3xl mx-auto mb-4 w-full">
+              <div className="grid grid-cols-2 gap-4">
+                <Button type="submit" disabled={processing} onClick={handleSubmit}>
+                  {processing ? "Submitting..." : "Submit"}
+                </Button>
+                <DrawerClose ref={closeRef} asChild>
+                  <Button variant="destructive" >Cancel</Button>
+                </DrawerClose>
+              </div>
             </DrawerFooter>
           </DrawerContent>
       </DrawerPortal>

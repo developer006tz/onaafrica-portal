@@ -15,7 +15,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'timezone' => 'UTC',
+    'timezone' => 'Africa/Dar_es_Salaam',
 
     'locale' => env('APP_LOCALE', 'en'),
 
