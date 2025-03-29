@@ -4,24 +4,29 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, Users,SquareUserRound } from 'lucide-react';
+import { LayoutGrid, Users,SquareUserRound, FileBadge } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        url: '/dashboard',
+        url: route('dashboard'),
         icon: LayoutGrid,
     },
     {
         title: 'Staffs',
-        url: '/staffs',
+        url: route('staffs.index'),
         icon: SquareUserRound,
     },
     {
         title: 'Customers',
-        url: '/customers',
+        url: route('customers.index'),
         icon: Users,
+    },
+    {
+        title: 'Reports',
+        url: route('reports.index'),
+        icon: FileBadge,
     },
 ];
 

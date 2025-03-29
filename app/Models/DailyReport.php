@@ -13,7 +13,7 @@ class DailyReport extends Model
     protected $fillable = [
         'staff_id',
         'customer_id',
-        'entity_id',
+        'property_id',
         'address',
         'customer_phones',
         'time_from',
@@ -42,8 +42,28 @@ class DailyReport extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function entity(): BelongsTo
+    public function property(): BelongsTo
     {
-        return $this->belongsTo(Entity::class);
+        return $this->belongsTo(Property::class);
+    }
+
+    public function scopeFilter($query, array $filters = [])
+    {
+        $query->when($filters['date'] ?? null, function ($query, $date) {
+            $query->whereDate('date', $date);
+        });
+
+        $query->when($filters['customer_id'] ?? null, function ($query, $customerId) {
+            $query->where('customer_id', $customerId);
+        });
+
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('address', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        });
+
+        return $query;
     }
 }
