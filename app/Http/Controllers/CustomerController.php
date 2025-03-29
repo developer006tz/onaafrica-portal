@@ -52,6 +52,7 @@ class CustomerController extends Controller
     public function storeCustomer(AddCustomerRequest $request){
         $validated = $request->validated();
         $validated['created_by'] = $request->user()->id;
+        $validated['name'] = strtoupper($request->name);
 
         Customer::create($validated);
 
