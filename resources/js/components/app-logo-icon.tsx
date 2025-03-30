@@ -3,7 +3,7 @@ import { ImgHTMLAttributes } from 'react';
 export default function AppLogoIcon(props: ImgHTMLAttributes<HTMLImageElement>) {
     return (
         <img
-            src="/images/onaafrica-logo-white@4x.png"
+            src="/images/onaafrica-logo@4x.png"
             alt="App Logo"
             {...props}
             style={{

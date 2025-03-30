@@ -20,6 +20,7 @@ class DailyReport extends Model
         'time_to',
         'description',
         'status',
+        'date'
     ];
 
     protected $keyType = 'string';

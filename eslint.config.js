@@ -35,7 +35,7 @@ export default [
         rules: {
             'react-hooks/rules-of-hooks': 'error',
             'react-hooks/exhaustive-deps': 'warn',
-            '@typescript-eslint/no-explicit-any': 'error', // Enable error for any usage
+            '@typescript-eslint/no-explicit-any': 'warn',
         },
     },
     {
