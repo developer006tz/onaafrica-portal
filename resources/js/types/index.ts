@@ -48,7 +48,7 @@ export interface User {
     photo?: string | null;
     role: 'manager' | 'sales-manager' | 'sales-officer' | 'it' | 'graphics-designer';
     email_verified_at?: string | null;
-    created_at?: string;
+    created_at: string;
     updated_at?: string;
     [key: string]: unknown;
 }
@@ -71,4 +71,39 @@ export interface Customer {
 
 export interface ButonVariant {
     buttonVariant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+}
+
+export interface Report {
+    id: string;
+    reference_number: string;
+    staff_id: string;
+    customer_id: string;
+    property_id: string;
+    address: string;
+    customer_phones?: string[];
+    time_from?: string;
+    time_to?: string;
+    description?: string;
+    status: 'COMPLETE' | 'PENDING' | 'CANCELLED';
+    date: string;
+    customer: string;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface ReportsData {
+    data: Report[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+    links: Array<{
+        url: string | null;
+        label: string;
+        active: boolean;
+    }>;
+}
+
+export interface PreviousReportData {
+    reports: Report[];
 }
