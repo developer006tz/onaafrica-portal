@@ -29,19 +29,27 @@ class ReportController extends Controller
                 ->through(function ($report) {
                     return [
                         'id' => $report->id,
+                        'reference_number' => $report->reference_number,
+                        'description' => $report->description,
+                        'time_from' => $report->time_from,
+                        'time_to' => $report->time_to,
                         'date' => $report->date,
                         'customer' => $report->customer->name,
                         'address' => $report->address,
                         'status' => $report->status
                     ];
                 }),
-                'previous-reports' => DailyReport::where('date', '<', date('Y-m-d'))
+                'previousReports' => DailyReport::where('date', '<', date('Y-m-d'))
                     ->orderBy('date', 'desc')
                     ->take(3)
                     ->get()
                     ->map(function($report) {
                         return [
                             'id' => $report->id,
+                            'reference_number' => $report->reference_number,
+                            'description' => $report->description,
+                            'time_from' => $report->time_from,
+                            'time_to' => $report->time_to,
                             'date' => $report->date,
                             'customer' => $report->customer->name,
                             'address' => $report->address,

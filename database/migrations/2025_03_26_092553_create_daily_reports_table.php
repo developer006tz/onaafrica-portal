@@ -11,6 +11,7 @@ return new class extends Migration
     {
         Schema::create('daily_reports', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
+            $table->string('reference_number')->unique();
             $table->foreignUuid('staff_id')->constrained('users','id')->cascadeOnDelete();
             $table->foreignUuid('customer_id')->constrained('customers','id')->cascadeOnDelete();
             $table->foreignUuid('property_id')->constrained('properties','id')->cascadeOnDelete();

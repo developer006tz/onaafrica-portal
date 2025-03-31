@@ -75,6 +75,7 @@ export interface ButonVariant {
 
 export interface Report {
     id: string;
+    reference_number: string;
     staff_id: string;
     customer_id: string;
     property_id: string;
@@ -101,4 +102,8 @@ export interface ReportsData {
         label: string;
         active: boolean;
     }>;
+}
+
+export interface PreviousReportData {
+    reports: Report[];
 }

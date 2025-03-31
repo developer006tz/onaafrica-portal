@@ -10,12 +10,50 @@ class DailyReport extends Model
 {
     use HasUuids;
 
+    /**
+     * The "booted" method of the model.
+     * 
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($report) {
+            if (!$report->reference_number) {
+                $report->reference_number = static::generateReferenceNumber();
+            }
+        });
+    }
+
+    /**
+     * Generate a unique reference number for the report.
+     * 
+     * @return string
+     */
+    protected static function generateReferenceNumber(): string
+    {
+        $latestReport = static::orderBy('created_at', 'desc')
+            ->where('reference_number', 'like', 'REP-%')
+            ->first();
+
+        $nextNumber = 1;
+
+        if ($latestReport) {
+            $lastNumber = (int) substr($latestReport->reference_number, 4);
+            $nextNumber = $lastNumber + 1;
+        }
+
+        return 'REP-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+    }
+
     protected $fillable = [
         'staff_id',
         'customer_id',
         'property_id',
         'address',
         'customer_phones',
+        'reference_number',
         'time_from',
         'time_to',
         'description',
