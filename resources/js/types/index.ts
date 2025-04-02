@@ -78,7 +78,7 @@ export interface Report {
     reference_number: string;
     staff_id: string;
     customer_id: string;
-    property_id: string;
+    property_type: string;
     address: string;
     customer_phones?: string[];
     time_from?: string;

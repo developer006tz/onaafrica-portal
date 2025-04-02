@@ -20,3 +20,29 @@ export const getInitials = (name: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
   }
+
+export const getTimeSpent = (timeFrom: string | Date | undefined, timeTo: string | Date | undefined) => {
+    if (!timeFrom || !timeTo) return 'N/A';
+
+    try {
+        const startTime = new Date(timeFrom);
+        const endTime = new Date(timeTo);
+
+        // Calculate difference in milliseconds
+        const diffMs = endTime.getTime() - startTime.getTime();
+
+        // Convert to hours and minutes
+        const hours = Math.floor(diffMs / (1000 * 60 * 60));
+        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+        return `${hours}h ${minutes}m`;
+    } catch (e) {
+        console.error('Error calculating time spent:', e);
+        return 'Invalid time';
+    }
+};
+
+   export  const formatPhones = (customer_phones: any) => {
+        if (!customer_phones || customer_phones.length === 0) return 'N/A';
+        return customer_phones.join(', ');
+    };

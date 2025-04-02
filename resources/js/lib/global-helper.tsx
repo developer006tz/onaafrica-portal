@@ -8,3 +8,16 @@ export const getRoleBadgeColor = (role: string) => {
     };
     return colors[role] || 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300';
   };
+
+  export const getStatusBadgeClass = (status: string) => {
+    switch (status) {
+        case 'COMPLETE':
+            return 'bg-green-50 text-green-700 ring-1 ring-green-600/20 ring-inset';
+        case 'PENDING':
+            return 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20 ring-inset';
+        case 'CANCELLED':
+            return 'bg-red-50 text-red-700 ring-1 ring-red-600/20 ring-inset';
+        default:
+            return 'bg-muted text-muted-foreground ring-border/20 ring-1 ring-inset';
+    }
+};

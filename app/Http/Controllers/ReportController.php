@@ -35,6 +35,7 @@ class ReportController extends Controller
                         'time_to' => $report->time_to,
                         'date' => $report->date,
                         'customer' => $report->customer->name,
+                        'property_type' => $report->property->name,
                         'address' => $report->address,
                         'status' => $report->status
                     ];
@@ -52,6 +53,7 @@ class ReportController extends Controller
                             'time_to' => $report->time_to,
                             'date' => $report->date,
                             'customer' => $report->customer->name,
+                            'property_type' => $report->property->name,
                             'address' => $report->address,
                             'status' => $report->status
                         ];
