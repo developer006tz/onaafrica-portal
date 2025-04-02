@@ -64,7 +64,14 @@ export default function StaffDailyReportsScreen({ reports, previousReports }: { 
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-1">
                                 {reports.data.map((report) => (
                                     <ReportCard key={report.id} report={report} />
+                                    
                                 ))}
+                                <div className='flex justify-end '>
+                                <Link href={route('reports.all',auth.user.id)} className="flex items-center text-sm text-primary hover:underline">
+                                    View All
+                                    <ArrowRight className="h-4 w-4 ml-1" />
+                                </Link>
+                                </div>
                             </div>
                         )}
                     </CardContent>

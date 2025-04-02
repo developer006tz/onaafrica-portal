@@ -96,11 +96,11 @@ class ReportController extends Controller
            'search',
             'customer_id',
         ];
-        return Inertia::render('reports/index', [
+        return Inertia::render('reports/all', [
            'reports' => DailyReport::filter($request->only($filterParams))
                 ->where('staff_id', $request->staff_id)
                 ->orderBy('created_at', 'desc')
-                ->paginate($request->per_page?? 10)
+                ->paginate($request->per_page?? 1)
                 ->withQueryString()
                 ->through(function ($report) {
                     return [
