@@ -17,7 +17,7 @@ class Customer extends Model
         'location_id',
         'created_by',
         'address',
-        'contact_number',
+        'contact_person_phone',
         'tin',
         'vrn',
     ];

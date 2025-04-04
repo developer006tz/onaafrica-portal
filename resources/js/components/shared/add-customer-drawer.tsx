@@ -25,8 +25,13 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
   const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
     contact_person: '',
+    contact_person_phone: '',
     email: '',
     phone: '',
+    address: '',
+    tin: '',
+    vrn: '',
+
   });
 
   function handleSubmit(e: React.FormEvent) {
@@ -57,7 +62,7 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
           <form onSubmit={handleSubmit} className="space-y-8 min-w-3xl max-w-6xl px-4 mx-auto py-5">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <FormLabel htmlFor="name">Customer name</FormLabel>
+                  <FormLabel htmlFor="name">Customer name <span className="text-red-500">*</span> </FormLabel>
                   <Input
                     id="name"
                     className="border bg-gray-50 dark:bg-black/40"
@@ -68,6 +73,7 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
                   {errors.name && <FormMessage>{errors.name}</FormMessage>}
                 </div>
                 
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <FormLabel htmlFor="contact_person">Contact Person</FormLabel>
                   <Input
@@ -79,9 +85,26 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
                   />
                   {errors.contact_person && <FormMessage>{errors.contact_person}</FormMessage>}
                 </div>
+
+                <div className="space-y-2">
+                  <FormLabel htmlFor="contact_person_phone">Contact Person Phone</FormLabel>
+                  <Input
+                    id="contact_person_phone"
+                    className="border bg-gray-50 dark:bg-black/40"
+                    type="tel"
+                    value={data.contact_person_phone}
+                    onChange={e => setData('contact_person_phone', e.target.value)}
+                  />
+                  {errors.contact_person_phone && <FormMessage>{errors.contact_person_phone}</FormMessage>}
+                </div>
+
+                </div>
+               
                 
+                <div className="grid grid-cols-2 gap-2">
+
                 <div className=" space-y-2">
-                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormLabel htmlFor="email">Customer Email</FormLabel>
                     <Input
                       id="email"
                       className="border bg-gray-50 dark:bg-black/40"
@@ -93,15 +116,55 @@ export function AddCustomerDrawer({ buttonVariant = "default" }: ButonVariant) {
                   </div>
                   
                   <div className=" space-y-2">
-                    <FormLabel htmlFor="phone">Phone</FormLabel>
+                    <FormLabel htmlFor="phone">Customer Phone <span className="text-red-500">*</span></FormLabel>
                     <Input
                       id="phone"
                       className="border bg-gray-50 dark:bg-black/40"
-                      type="text"
+                      type="tel"
                       value={data.phone}
                       onChange={e => setData('phone', e.target.value)}
                     />
                     {errors.phone && <FormMessage>{errors.phone}</FormMessage>}
+                  </div>
+
+                </div>
+                
+
+                  <div className=" space-y-2">
+                    <FormLabel htmlFor="address">Customer Address</FormLabel>
+                    <textarea
+                      id="address"
+                      className="min-h-[50px] w-full rounded-md border border-input bg-gray-50 dark:bg-black/40 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      value={data.address}
+                      onChange={e => setData('address', e.target.value)}
+                    />
+                    {errors.phone && <FormMessage>{errors.address}</FormMessage>}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                  <div className=" space-y-2">
+                    <FormLabel htmlFor="tin">TIN</FormLabel>
+                    <Input
+                      id="tin"
+                      className="border bg-gray-50 dark:bg-black/40"
+                      type="text"
+                      value={data.tin}
+                      onChange={e => setData('tin', e.target.value)}
+                    />
+                    {errors.tin && <FormMessage>{errors.tin}</FormMessage>}
+                  </div>
+
+                  <div className=" space-y-2">
+                    <FormLabel htmlFor="vrn">VRN</FormLabel>
+                    <Input
+                      id="vrn"
+                      className="border bg-gray-50 dark:bg-black/40"
+                      type="text"
+                      value={data.vrn}
+                      onChange={e => setData('vrn', e.target.value)}
+                    />
+                    {errors.vrn && <FormMessage>{errors.vrn}</FormMessage>}
+                  </div>
                   </div>
               </div>
             </form>

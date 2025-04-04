@@ -94,9 +94,11 @@ export default function CustomerScreen({ customers }: CustomerProps) {
                                                                 <Button size="icon" variant="ghost" className="h-8 w-8">
                                                                     <Eye className="h-4 w-4" />
                                                                 </Button>
-                                                                <Button size="icon" variant="ghost" className="h-8 w-8">
-                                                                    <Edit className="h-4 w-4" />
-                                                                </Button>
+                                                                <Link href={route('customers.edit',customer.id)}>
+                                                                    <Button size="icon" variant="ghost" className="h-8 w-8 cursor-pointer">
+                                                                        <Edit className="h-4 w-4" />
+                                                                    </Button>
+                                                                </Link>
                                                                 <Button size="icon" variant="ghost" className="h-8 w-8">
                                                                     <Trash2 className="h-4 w-4" />
                                                                 </Button>

@@ -60,7 +60,7 @@ class UserController extends Controller
             ? uploadFile($request->file('photo')) 
             : null;
 
-        $validated['name'] = strtolower(ucwords($request->name) );
+        $validated['name'] = ucwords(strtolower($request->name));
 
         $validated['password'] = '123456';
         

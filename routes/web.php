@@ -23,4 +23,5 @@ require __DIR__.'/staffs.php';
 require __DIR__.'/customers.php';
 require __DIR__.'/properties.php';
 require __DIR__.'/reports.php';
+require __DIR__.'/invoices.php';
 require __DIR__.'/auth.php';

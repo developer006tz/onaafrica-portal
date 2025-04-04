@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignUuid('created_by')->nullable()->constrained('users', 'id')->onDelete('SET NULL');
 
             $table->string('address')->nullable();
-            $table->string('contact_number')->nullable();
+            $table->string('contact_person_phone')->nullable();
             $table->string('tin')->nullable();
             $table->string('vrn')->nullable();
             
