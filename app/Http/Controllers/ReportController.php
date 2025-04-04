@@ -100,7 +100,7 @@ class ReportController extends Controller
            'reports' => DailyReport::filter($request->only($filterParams))
                 ->where('staff_id', $request->staff_id)
                 ->orderBy('created_at', 'desc')
-                ->paginate($request->per_page?? 1)
+                ->paginate($request->per_page?? 10)
                 ->withQueryString()
                 ->through(function ($report) {
                     return [

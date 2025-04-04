@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,4 +36,10 @@ function uploadFile($file, $path = 'uploads')
     } catch (\Exception $e) {
         throw new \RuntimeException('Image upload failed: ' . $e->getMessage());
     }
+}
+
+
+function getCompany()
+{
+    return Company::first();
 }

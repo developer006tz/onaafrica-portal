@@ -15,7 +15,11 @@ class Customer extends Model
         'email',
         'phone',
         'location_id',
-        'created_by'
+        'created_by',
+        'address',
+        'contact_number',
+        'tin',
+        'vrn',
     ];
 
     protected $keyType = 'string';
