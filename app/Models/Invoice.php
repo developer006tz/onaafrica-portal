@@ -11,8 +11,46 @@ class Invoice extends Model
 {
     use HasUuids;
 
+    /**
+     * The "booted" method of the model.
+     * 
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($invoice) {
+            if (!$invoice->invoice_number) {
+                $invoice->invoice_number = static::generateInvoiceNumber();
+            }
+        });
+    }
+
+    /**
+     * Generate a unique invoice number.
+     * 
+     * @return string
+     */
+    protected static function generateInvoiceNumber(): string
+    {
+        $latestInvoice = static::orderBy('created_at', 'desc')
+            ->where('invoice_number', 'like', 'ONA-%')
+            ->first();
+
+        $nextNumber = 1;
+
+        if ($latestInvoice) {
+            $lastNumber = (int) substr($latestInvoice->invoice_number, 4);
+            $nextNumber = $lastNumber + 1;
+        }
+
+        return 'ONA-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+    }
+
     protected $fillable = [
         'invoice_number',
+        'invoice_type',
         'issue_date',
         'sub_total',
         'vat_rate',
@@ -25,6 +63,8 @@ class Invoice extends Model
         'customer_id',
         'created_by',
         'company_branch_id',
+        'status',
+        'achieved',
     ];
 
     protected $keyType = 'string';

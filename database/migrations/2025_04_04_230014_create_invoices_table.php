@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
             $table->string('invoice_number');
+            $table->enum('invoice_type',['performa','invoice']);
             $table->date('issue_date');
             $table->float('sub_total');
             $table->float('vat_rate')->nullable();
@@ -21,8 +22,11 @@ return new class extends Migration
             $table->text('delivery_timeline')->nullable();
             $table->text('payment_terms')->nullable();
             $table->text('delivery_location')->nullable();
+            $table->enum('status',['draft','sent','paid','overdue','void'])->default('draft');
+            $table->enum('achieved',['yes','no'])->default('no');
             $table->foreignUuid('customer_id')->constrained('customers','id')->cascadeOnDelete();
             $table->foreignUuid('created_by')->constrained('users','id')->cascadeOnDelete();
+
             $table->foreignUuid('company_branch_id')->constrained('company_branches','id')->cascadeOnDelete();
             $table->timestamps();
         });
