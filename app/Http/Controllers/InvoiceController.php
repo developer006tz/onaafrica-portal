@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddInvoiceRequest;
+use App\Models\CompanyBranch;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
@@ -50,6 +51,7 @@ class InvoiceController extends Controller
         $customers = Customer::all();
         return Inertia::render('invoices/create', [
             'customers' => $customers,
+            'companyBranches' => CompanyBranch::select('id', 'name')->get(),
         ]);
     }
 

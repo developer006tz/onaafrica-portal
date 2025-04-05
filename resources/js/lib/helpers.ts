@@ -46,3 +46,13 @@ export const getTimeSpent = (timeFrom: string | Date | undefined, timeTo: string
         if (!customer_phones || customer_phones.length === 0) return 'N/A';
         return customer_phones.join(', ');
     };
+
+    export const formartCurrency = (amount: string) => {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'TZS',
+            minimumFractionDigits: 2,
+            currencyDisplay: 'symbol',
+            currencySign: 'accounting'
+        }).format(amount as any).replace('TZS', '') + ' TZS';
+    }
