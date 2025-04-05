@@ -132,6 +132,14 @@ class Invoice extends Model
             $query->where('company_branch_id', $companyBranchId);
         });
 
+        $query->when($filters['status']?? null, function ($query, $status) {
+            $query->where('status', $status);
+        });
+
+        $query->when($filters['achieved']?? null, function ($query, $achieved) {
+            $query->where('achieved', $achieved);
+        });
+
         return $query;
     }
 }
