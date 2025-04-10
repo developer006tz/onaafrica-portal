@@ -55,7 +55,7 @@ interface FormDataType {
 export default function InvoiceCreateScreen({ customers }: InvoiceScreenProps) {
     const { data, setData, post, processing, errors } = useForm<FormDataType>({
         invoice_type: 'invoice',
-        issue_date: new Date().toISOString().split('T')[0], // Today's date
+        issue_date: new Date().toISOString().split('T')[0],
         sub_total: 0,
         vat_rate: 18,
         vat_type: 'none',
@@ -123,7 +123,7 @@ export default function InvoiceCreateScreen({ customers }: InvoiceScreenProps) {
         const newItems = [...data.items];
         const newItem = { ...newItems[index] };
         
-        newItem[field] = value;
+        (newItem as any)[field] = value;
         
         if (field === 'unit_price' || field === 'quantity') {
             const unitPrice = field === 'unit_price' ? Number(value) : newItem.unit_price;
