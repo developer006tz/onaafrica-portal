@@ -3,16 +3,8 @@ import { Roles, type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
-import { FormFileInput } from '@/components/form/FormFileInput'; // Import the component
-import { FormDescription, FormLabel, FormMessage } from '@/lib/form-helper';
+import { FormFileInput } from '@/components/form/FormFileInput';
+import { FormInput, FormSelect } from '@/components/form';
 
 const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Staffs', href: '/staffs' },
@@ -34,7 +26,6 @@ export default function AddStaffScreen({ roles }: AddUserProps) {
   });
 
   const handleFileChange = (files: File[] | null) => {
-    // Update form data with first file or null
     setData('photo', files?.[0] || null);
   };
 
@@ -52,75 +43,64 @@ export default function AddStaffScreen({ roles }: AddUserProps) {
           <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl mx-auto py-5">
             <div className="space-y-4">
               <div className="space-y-2">
-                <FormLabel htmlFor="name">Name</FormLabel>
-                <Input
-                  id="name"
-                  placeholder="Full name"
-                  type="text"
-                  value={data.name}
-                  onChange={e => setData('name', e.target.value)}
-                />
-                {errors.name && <FormMessage>{errors.name}</FormMessage>}
+                <FormInput
+                    id='name'
+                    label="Full Name"
+                    value={data.name}
+                    onChange={e => setData('name', e.target.value)}
+                    error={errors.name}
+                    placeholder="Full name"
+                    />
               </div>
               
               <div className="grid grid-cols-12 gap-4">
                 <div className="col-span-6 space-y-2">
-                  <FormLabel htmlFor="email">Email</FormLabel>
-                  <Input
-                    id="email" 
-                    placeholder="your email"
-                    type="email"
+                  <FormInput
+                    id='email'
+                    label="Email"
                     value={data.email}
                     onChange={e => setData('email', e.target.value)}
-                  />
-                  {errors.email && <FormMessage>{errors.email}</FormMessage>}
+                    error={errors.email}
+                    placeholder="email@example.com"
+                    type='email'
+                    />
                 </div>
                 
                 <div className="col-span-6 space-y-2">
-                  <FormLabel htmlFor="phone">Phone</FormLabel>
-                  <Input
-                    id="phone" 
-                    placeholder="07xxxxxx"
-                    type="text"
+                  <FormInput
+                    id='phone'
+                    label="Phone"
                     value={data.phone}
                     onChange={e => setData('phone', e.target.value)}
-                  />
-                  {errors.phone && <FormMessage>{errors.phone}</FormMessage>}
+                    error={errors.phone}
+                    placeholder="07xxxxxx"
+                    type='tel'
+                    />
                 </div>
               </div>
               
               <div className="grid grid-cols-12 gap-4">
                 <div className="col-span-6 space-y-2">
-                  <FormLabel htmlFor="role_id">Role</FormLabel>
-                  <Select 
-                    value={data.role_id} 
-                    onValueChange={(value) => setData('role_id', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choose Role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {roles.map((role) => (
-                        <SelectItem key={role.id} value={role.id}>
-                          {role.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>Select user role</FormDescription>
-                  {errors.role_id && <FormMessage>{errors.role_id}</FormMessage>}
+                <FormSelect
+                  label="Role"
+                  id="role_id"
+                  options={roles.map(role => ({ value: role.id, label: role.name }))}
+                  value={data.role_id}
+                  onChange={(value) => setData('role_id', value)}
+                  placeholder="Choose Role"
+                  error={errors.role_id}
+                />
                 </div>
                 
                 <div className="col-span-6 space-y-2">
-                  <FormLabel htmlFor="staff_number">Staff ID</FormLabel>
-                  <Input 
-                    id="staff_number"
-                    placeholder="ONA-XXXX"
-                    type="text"
+                  <FormInput
+                    id='staff_number'
+                    label="Staff ID"
                     value={data.staff_number}
                     onChange={e => setData('staff_number', e.target.value)}
-                  />
-                  {errors.staff_number && <FormMessage>{errors.staff_number}</FormMessage>}
+                    error={errors.staff_number}
+                    placeholder="ONA-XXXX"
+                    />
                 </div>
               </div>
               
