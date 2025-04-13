@@ -69,6 +69,11 @@ export interface Customer {
     created_at: string;
 }
 
+export interface CompanyBranch {
+    id: string;
+    name: string;
+}
+
 export interface ButonVariant {
     buttonVariant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 }

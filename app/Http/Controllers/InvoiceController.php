@@ -27,7 +27,7 @@ class InvoiceController extends Controller
             ->when($request->filled('status'), function ($query) use ($request) {
                 return $query->where('status', $request->status);
             })
-            ->with(['customer', 'branch'])
+            ->with(['customer', 'companyBranch'])
             ->latest()
             ->paginate(10)
             ->withQueryString();
@@ -57,8 +57,8 @@ class InvoiceController extends Controller
 
     public function storeInvoice(AddInvoiceRequest $request)
     {
-        // Start a database transaction
-        \DB::beginTransaction();
+        dd($request->all());
+        DB::beginTransaction();
 
         try {
             // Create the invoice
@@ -100,5 +100,19 @@ class InvoiceController extends Controller
             return back()->withErrors(['error' => 'Failed to create invoice: ' . $e->getMessage()])
                 ->withInput();
         }
+    }
+
+    public function listQuotes(Request $request)
+    {
+        $invoices = Invoice::query()
+            ->where('invoice_type', 'performa')
+            ->filter([
+                'invoice_number' => $request->input('search'),
+                'customer_id' => $request->input('customer'),
+                'issue_date' => $request->input('date'),
+                'company_branch_id' => $request->input('branch'),
+                'status' => $request->input('status'),
+                'is_achieved' => $request->input('is_achieved'),
+            ]);
     }
 }

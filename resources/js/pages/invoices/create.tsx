@@ -1,3 +1,4 @@
+import { FormDateInput } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -6,9 +7,10 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { FormLabel, FormMessage } from '@/lib/form-helper';
 import { formartCurrency } from '@/lib/helpers';
-import { Customer, type BreadcrumbItem } from '@/types';
+import { CompanyBranch, Customer, type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowBigLeft, Plus, Trash2 } from 'lucide-react';
+import { useEffect } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,6 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface InvoiceScreenProps {
     customers: Customer[];
+    companyBranches: CompanyBranch[];
 }
 
 interface InvoiceItem {
@@ -52,7 +55,7 @@ interface FormDataType {
     [key: string]: string | number | InvoiceItem[] | any;
 }
 
-export default function InvoiceCreateScreen({ customers }: InvoiceScreenProps) {
+export default function InvoiceCreateScreen({ customers, companyBranches }: InvoiceScreenProps) {
     const { data, setData, post, processing, errors } = useForm<FormDataType>({
         invoice_type: 'invoice',
         issue_date: new Date().toISOString().split('T')[0],
@@ -61,15 +64,21 @@ export default function InvoiceCreateScreen({ customers }: InvoiceScreenProps) {
         vat_type: 'none',
         vat_amount: 0,
         total_amount: 0,
-        delivery_timeline: '',
-        payment_terms: '',
-        delivery_location: '',
+        delivery_timeline: 'Products will be delivered within 7 days of receiving the Local Purchase Order (LPO).',
+        payment_terms: ' Payment is due 7 days after the receipt of the products.',
+        delivery_location: 'Products will be delivered to the address specified in the LPO.',
         status: 'draft',
         achieved: 'no',
         customer_id: '',
-        company_branch_id: '1',
+        company_branch_id: companyBranches.length > 0 ? companyBranches[0].id : '',
         items: [{ item_description: '', unit_price: 0, quantity: 1, amount: 0 }],
     });
+
+    useEffect(() => {
+        if (companyBranches.length > 0 && !data.company_branch_id) {
+            setData('company_branch_id', companyBranches[0].id);
+        }
+    }, [companyBranches, data.company_branch_id, setData]);
 
     const calculateTotals = (items: InvoiceItem[], vatType: string, vatRate: number) => {
         const subTotal = items.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
@@ -160,6 +169,28 @@ export default function InvoiceCreateScreen({ customers }: InvoiceScreenProps) {
                     <CardContent className="p-2 sm:p-6">
                         <form onSubmit={handleSubmit} className="space-y-8">
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+                                {/* Company Branch */}
+                                <div className="space-y-2">
+                                    <FormLabel htmlFor="company_branch_id">
+                                        Invoice for which Branch? <span className="text-red-500">*</span>
+                                    </FormLabel>
+                                    <Select value={data.company_branch_id} onValueChange={(value) => setData('company_branch_id', value)}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a branch" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {companyBranches.map((branch) => (
+                                                <SelectItem key={branch.id} value={branch.id}>
+                                                    {branch.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    {errors.company_branch_id && <FormMessage>{errors.company_branch_id}</FormMessage>}
+                                </div>
+
+
                                 {/* Invoice Type */}
                                 <div className="space-y-2">
                                     <FormLabel htmlFor="invoice_type">
@@ -177,18 +208,10 @@ export default function InvoiceCreateScreen({ customers }: InvoiceScreenProps) {
                                     {errors.invoice_type && <FormMessage>{errors.invoice_type}</FormMessage>}
                                 </div>
 
-                                {/* Issue Date */}
+                               
+                                 {/* Issue Date */}
                                 <div className="space-y-2">
-                                    <FormLabel htmlFor="issue_date">
-                                        Issue Date <span className="text-red-500">*</span>
-                                    </FormLabel>
-                                    <Input
-                                        type="date"
-                                        id="issue_date"
-                                        value={data.issue_date}
-                                        onChange={(e) => setData('issue_date', e.target.value)}
-                                    />
-                                    {errors.issue_date && <FormMessage>{errors.issue_date}</FormMessage>}
+                                    <FormDateInput label="Date" value={data.issue_date} onChange={(value) => setData('issue_date', value)} error={errors.issue_date} />
                                 </div>
 
                                 {/* Customer */}
