@@ -11,11 +11,6 @@ class Invoice extends Model
 {
     use HasUuids;
 
-    /**
-     * The "booted" method of the model.
-     * 
-     * @return void
-     */
     protected static function boot()
     {
         parent::boot();
@@ -27,11 +22,6 @@ class Invoice extends Model
         });
     }
 
-    /**
-     * Generate a unique invoice number.
-     * 
-     * @return string
-     */
     protected static function generateInvoiceNumber(): string
     {
         $latestInvoice = static::orderBy('created_at', 'desc')
@@ -79,41 +69,26 @@ class Invoice extends Model
         'total_amount' => 'float',
     ];
 
-    /**
-     * Get the customer that owns the invoice.
-     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
-    /**
-     * Get the user that created the invoice.
-     */
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    /**
-     * Get the company branch that the invoice belongs to.
-     */
     public function companyBranch(): BelongsTo
     {
         return $this->belongsTo(CompanyBranch::class);
     }
 
-    /**
-     * Get the invoice items for the invoice.
-     */
     public function invoiceItems(): HasMany
     {
         return $this->hasMany(InvoiceItem::class);
     }
 
-    /**
-     * Filter invoices based on provided criteria.
-     */
     public function scopeFilter($query, array $filters = [])
     {
         $query->when($filters['invoice_number'] ?? null, function ($query, $invoiceNumber) {

@@ -26,7 +26,7 @@ class AddInvoiceRequest extends FormRequest
             'issue_date' => 'required|date',
             'sub_total' => 'required|numeric|min:0',
             'vat_rate' => 'nullable|numeric|min:0',
-            'vat_type' => 'nullable|in:inclusive,exclusive',
+            'vat_type' => 'nullable|in:inclusive,exclusive,none',
             'vat_amount' => 'nullable|numeric|min:0',
             'total_amount' => 'required|numeric|min:0',
             'delivery_timeline' => 'nullable|string',
