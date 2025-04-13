@@ -77,11 +77,50 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function showInvoice(Invoice $invoice)
+    public function showInvoice($invoiceId)
     {
-        $invoice->load(['customer', 'branch', 'items']);
+        $invoice = Invoice::findOrFail($invoiceId);
+        
         return Inertia::render('invoices/show', [
-            'invoice' => $invoice,
+            'invoice' => [
+                'id' => $invoice->id,
+                'invoice_number' => $invoice->invoice_number,
+                'invoice_type' => $invoice->invoice_type,
+                'issue_date' => $invoice->issue_date->format('d M Y'),
+                'sub_total' => $invoice->sub_total,
+                'vat_rate' => $invoice->vat_rate,
+                'vat_type' => $invoice->vat_type,
+                'vat_amount' => $invoice->vat_amount,
+                'total_amount' => $invoice->total_amount,
+                'delivery_timeline' => $invoice->delivery_timeline,
+                'payment_terms' => $invoice->payment_terms,
+                'delivery_location' => $invoice->delivery_location,
+                'company_branch' => $invoice->companyBranch->name,
+                'status' => $invoice->status,
+                'achieved' => $invoice->achieved,
+                'created_at' => $invoice->created_at->format('d M Y'),
+                'customer' => [
+                    'id' => $invoice->customer->id,
+                    'name' => $invoice->customer->name,
+                    'phone' => $invoice->customer->phone,
+                    'email' => $invoice->customer->email,
+                    'address' => $invoice->customer->address,
+                ],
+                'created_by' => [
+                    'id' => $invoice->createdBy->id,
+                    'name' => $invoice->createdBy->name,
+                    'email' => $invoice->createdBy->email,
+                ],
+                'invoice_items' => $invoice->invoiceItems->map(function ($item) {
+                    return [
+                        'item_description' => $item->item_description,
+                        'unit_price' => $item->unit_price,
+                        'quantity' => $item->quantity,
+                        'amount' => $item->amount,
+                    ];
+                }),
+                'items_count' => $invoice->invoiceItems->count(),
+            ],
         ]);
     }
 
