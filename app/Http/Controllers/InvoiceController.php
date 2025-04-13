@@ -27,7 +27,7 @@ class InvoiceController extends Controller
         $invoices = Invoice::query()
             ->filter($request->only($filterParams))
             ->latest()
-            ->paginate(10)
+            ->paginate(1)
             ->withQueryString()
             ->through(function ($invoice) {
                 return [
