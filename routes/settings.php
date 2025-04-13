@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,8 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/appearance', function () {
         return Inertia::render('settings/appearance');
     })->name('appearance');
+
+    Route::get('settings/company',[CompanyController::class,'index'])->name('company.edit');
+    Route::put('settings/company/{id}/update',[CompanyController::class,'updateCompany'])->name('company.update');
+    Route::put('settings/company/branch/{id}/update',[CompanyController::class,'updateCompanyBranch'])->name('company.branch.update');
 });

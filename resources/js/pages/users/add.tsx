@@ -1,13 +1,8 @@
 import AppLayout from '@/layouts/app-layout';
-import { Roles, type BreadcrumbItem, } from '@/types';
+import { Roles, type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-} from '@/components/ui/card';
-import { useState } from "react";
-// Don't import form components that rely on react-hook-form context
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -16,43 +11,19 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { CloudUpload, Paperclip } from "lucide-react";
-import {
-  FileInput,
-  FileUploader,
-  FileUploaderContent,
-  FileUploaderItem
-} from "@/components/ui/file-upload";
+import { FormFileInput } from '@/components/form/FormFileInput'; // Import the component
 import { FormDescription, FormLabel, FormMessage } from '@/lib/form-helper';
 
 const breadcrumbs: BreadcrumbItem[] = [
-  {
-    title: 'Staffs',
-    href: '/staffs',
-  },
-  {
-    title: 'Add New',
-    href: '/staffs/add',
-  },
+  { title: 'Staffs', href: '/staffs' },
+  { title: 'Add New', href: '/staffs/add' },
 ];
 
 interface AddUserProps {
   roles: Roles
 }
 
-
-
 export default function AddStaffScreen({ roles }: AddUserProps) {
-
-  const [files, setFiles] = useState<File[] | null>(null);
-
-  const dropZoneConfig = {
-    maxFiles: 1,
-    maxSize: 1024 * 1024 * 4,
-    multiple: false,
-  };
-  
-  // Use Inertia's useForm
   const { data, setData, post, processing, errors } = useForm({
     name: '',
     email: '',
@@ -62,22 +33,14 @@ export default function AddStaffScreen({ roles }: AddUserProps) {
     photo: null as File | null
   });
 
-  function handleFileChange(files: File[] | null) {
-    setFiles(files);
-    if (files && files.length > 0) {
-      setData('photo', files[0]);
-    } else {
-      setData('photo', null);
-    }
-  }
+  const handleFileChange = (files: File[] | null) => {
+    // Update form data with first file or null
+    setData('photo', files?.[0] || null);
+  };
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    post('/staffs/store', {
-      onSuccess: () => {
-        //
-      },
-    });
+    post('/staffs/store');
   }
   
   return (
@@ -162,41 +125,18 @@ export default function AddStaffScreen({ roles }: AddUserProps) {
               </div>
               
               <div className="space-y-2">
-                <FormLabel htmlFor="photo">Photo</FormLabel>
-                <FileUploader
-                  value={files}
-                  onValueChange={handleFileChange}
-                  dropzoneOptions={dropZoneConfig}
-                  className="relative bg-background rounded-lg p-2"
-                >
-                  <FileInput
-                    id="fileInput"
-                    className="outline-dashed outline-1 outline-slate-500"
-                  >
-                    <div className="flex items-center justify-center flex-col p-8 w-full">
-                      <CloudUpload className='text-gray-500 w-10 h-10' />
-                      <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-                        <span className="font-semibold">Click to upload</span>
-                        &nbsp; or drag and drop
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        SVG, PNG, JPG or GIF
-                      </p>
-                    </div>
-                  </FileInput>
-                  <FileUploaderContent>
-                    {files &&
-                      files.length > 0 &&
-                      files.map((file, i) => (
-                        <FileUploaderItem key={i} index={i}>
-                          <Paperclip className="h-4 w-4 stroke-current" />
-                          <span>{file.name}</span>
-                        </FileUploaderItem>
-                      ))}
-                  </FileUploaderContent>
-                </FileUploader>
-                <FormDescription>Select Image to Upload</FormDescription>
-                {errors.photo && <FormMessage>{errors.photo}</FormMessage>}
+                <FormFileInput
+                label="Photo"
+                value={data.photo ? [data.photo] : null}
+                onChange={handleFileChange}
+                error={errors.photo}
+                description="Select Image to Upload"
+                acceptedTypes=".png,.jpg,.jpeg,.webp"
+                helperText="PNG, JPG, JPEG or WEBP"
+                maxFiles={1}
+                maxSize={2 * 1024 * 1024}
+                id="photo"
+              />
               </div>
             </div>
             
