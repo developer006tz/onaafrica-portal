@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -60,7 +59,7 @@ class User extends Authenticatable
         });
 
         $query->when($filters['role'] ?? null, function ($query, $role) {
-            $query->whereHas('role', function($q) use ($role) {
+            $query->whereHas('role', function ($q) use ($role) {
                 $q->where('name', $role);
             });
         });
@@ -98,6 +97,4 @@ class User extends Authenticatable
 
         return $query;
     }
-
-
 }

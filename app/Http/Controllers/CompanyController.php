@@ -6,25 +6,28 @@ use App\Http\Requests\UpdateCompanyBranchRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\CompanyBranch;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CompanyController extends Controller
 {
     public function index()
     {
- 
-        return Inertia::render('settings/company',[
+
+        return Inertia::render('settings/company', [
             'company' => Company::first(),
             'branches' => CompanyBranch::where('company_id', Company::first()->id)->get(),
         ]);
     }
 
-    public function updateCompany(UpdateCompanyRequest $request,  $companyId)
+    public function updateCompany(UpdateCompanyRequest $request, $companyId)
     {
         $company = Company::findOrFail($companyId);
         $validated = $request->validated();
+        $validated['logo'] = $request->hasFile('logo')
+            ? uploadFile($request->file('logo'))
+            : null;
         $company->update($validated);
+
         return redirect()->back()->with('success', 'Company updated successfully');
     }
 
@@ -32,8 +35,12 @@ class CompanyController extends Controller
     {
         $companyBranch = CompanyBranch::findOrFail($companyBranchId);
         $validated = $request->validated();
+        $validated['logo'] = $request->hasFile('logo')
+            ? uploadFile($request->file('logo'))
+            : null;
         $companyBranch->update($validated);
+
         return redirect()->back()->with('success', 'Company Branch updated successfully');
-        
+
     }
 }

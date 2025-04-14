@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-  
     public function up(): void
     {
         Schema::create('companies', function (Blueprint $table) {
@@ -25,7 +24,7 @@ return new class extends Migration
             'tin' => '113-725-044',
             'vrn' => '40046632Y',
             'country' => 'Tanzania',
-            'logo' => null
+            'logo' => null,
         ]);
     }
 

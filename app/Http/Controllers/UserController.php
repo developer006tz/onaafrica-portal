@@ -21,9 +21,9 @@ class UserController extends Controller
             'date_from',
             'date_to',
             'sort_by',
-            'sort_dir'
+            'sort_dir',
         ];
-        
+
         return Inertia::render('users/index', [
             'filters' => $request->only($filterParams),
             'users' => User::filter($request->only($filterParams))
@@ -40,37 +40,34 @@ class UserController extends Controller
                         'staff_number' => $user->staff_number,
                         'created_at' => $user->created_at,
                     ];
-                })
+                }),
         ]);
     }
 
     public function addStaff()
     {
-       
-        return Inertia::render('users/add',[
-         'roles' => roles()
+
+        return Inertia::render('users/add', [
+            'roles' => roles(),
         ]);
     }
 
     public function storeStaff(storeStaffRequest $request)
     {
         $validated = $request->validated();
-        
-        $validated['photo'] = $request->hasFile('photo') 
-            ? uploadFile($request->file('photo')) 
+
+        $validated['photo'] = $request->hasFile('photo')
+            ? uploadFile($request->file('photo'))
             : null;
 
         $validated['name'] = ucwords(strtolower($request->name));
 
         $validated['password'] = '123456';
-        
+
         User::create($validated);
 
         return to_route('staffs.index')->with('success', 'Staff added successfully');
     }
 
-    public function deleteStaff(DeleteStaffRequest $request)
-    {
-        
-    }
+    public function deleteStaff(DeleteStaffRequest $request) {}
 }

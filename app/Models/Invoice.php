@@ -16,7 +16,7 @@ class Invoice extends Model
         parent::boot();
 
         static::creating(function ($invoice) {
-            if (!$invoice->invoice_number) {
+            if (! $invoice->invoice_number) {
                 $invoice->invoice_number = static::generateInvoiceNumber();
             }
         });
@@ -35,7 +35,7 @@ class Invoice extends Model
             $nextNumber = $lastNumber + 1;
         }
 
-        return 'ONA-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+        return 'ONA-'.str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
     }
 
     protected $fillable = [
@@ -92,7 +92,7 @@ class Invoice extends Model
     public function scopeFilter($query, array $filters = [])
     {
         $query->when($filters['invoice_number'] ?? null, function ($query, $invoiceNumber) {
-            $query->where('invoice_number', 'like', '%' . $invoiceNumber . '%');
+            $query->where('invoice_number', 'like', '%'.$invoiceNumber.'%');
         });
 
         $query->when($filters['customer_id'] ?? null, function ($query, $customerId) {
@@ -107,11 +107,11 @@ class Invoice extends Model
             $query->where('company_branch_id', $companyBranchId);
         });
 
-        $query->when($filters['status']?? null, function ($query, $status) {
+        $query->when($filters['status'] ?? null, function ($query, $status) {
             $query->where('status', $status);
         });
 
-        $query->when($filters['achieved']?? null, function ($query, $achieved) {
+        $query->when($filters['achieved'] ?? null, function ($query, $achieved) {
             $query->where('achieved', $achieved);
         });
 

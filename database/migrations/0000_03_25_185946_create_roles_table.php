@@ -6,12 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-  
     public function up(): void
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
-            $table->string('name',50);
+            $table->string('name', 50);
             $table->timestamps();
         });
     }

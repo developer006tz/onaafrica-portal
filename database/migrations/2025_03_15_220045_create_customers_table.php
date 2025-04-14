@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('contact_person_phone')->nullable();
             $table->string('tin')->nullable();
             $table->string('vrn')->nullable();
-            
+
             $table->timestamps();
         });
     }

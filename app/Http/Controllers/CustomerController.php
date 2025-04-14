@@ -20,7 +20,6 @@ class CustomerController extends Controller
             'phone',
         ];
 
-
         return Inertia::render('customers/index', [
             'filters' => $request->only($filterParams),
             'customers' => Customer::filter($request->only($filterParams))
@@ -36,7 +35,7 @@ class CustomerController extends Controller
                         'created_by' => $customer->createdBy?->name ?? null,
                         'created_at' => $customer->created_at,
                     ];
-                })
+                }),
 
         ]);
 
@@ -62,16 +61,14 @@ class CustomerController extends Controller
 
     }
 
-    public function deleteCustomer(Request $request)
-    {
-
-    }
+    public function deleteCustomer(Request $request) {}
 
     public function editCustomer($customerId)
     {
         $customer = Customer::findOrFail($customerId);
+
         return Inertia::render('customers/edit', [
-            'customer' => $customer
+            'customer' => $customer,
         ]);
     }
 

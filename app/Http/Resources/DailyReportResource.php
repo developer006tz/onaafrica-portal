@@ -7,7 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class DailyReportResource extends JsonResource
 {
-   
     public function toArray(Request $request): array
     {
         return [
@@ -20,7 +19,7 @@ class DailyReportResource extends JsonResource
             'customer' => $this->customer->name,
             'property_type' => $this->property->name,
             'address' => $this->address,
-            'status' => $this->status
+            'status' => $this->status,
         ];
     }
 }

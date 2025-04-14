@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('settings/appearance');
     })->name('appearance');
 
-    Route::get('settings/company',[CompanyController::class,'index'])->name('company.edit');
-    Route::put('settings/company/{id}/update',[CompanyController::class,'updateCompany'])->name('company.update');
-    Route::put('settings/company/branch/{id}/update',[CompanyController::class,'updateCompanyBranch'])->name('company.branch.update');
+    Route::get('settings/company', [CompanyController::class, 'index'])->name('company.edit');
+    Route::put('settings/company/{id}/update', [CompanyController::class, 'updateCompany'])->name('company.update');
+    Route::put('settings/company/branch/{id}/update', [CompanyController::class, 'updateCompanyBranch'])->name('company.branch.update');
 });

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('contact_person')->nullable();
             $table->string('contact_number')->nullable();
             $table->string('stamp')->nullable();
-            $table->foreignUuid('company_id')->constrained('companies','id')->cascadeOnDelete();
+            $table->foreignUuid('company_id')->constrained('companies', 'id')->cascadeOnDelete();
             $table->timestamps();
         });
 

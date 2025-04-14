@@ -42,14 +42,12 @@ class AddInvoiceRequest extends FormRequest
             'items.*.item_description' => 'required|string',
             'items.*.unit_price' => 'required|numeric|min:0',
             'items.*.quantity' => 'required|integer|min:1',
-            'items.*.amount' => 'required|numeric|min:0'
+            'items.*.amount' => 'required|numeric|min:0',
         ];
     }
 
     /**
      * Get custom messages for validator errors.
-     *
-     * @return array
      */
     public function messages(): array
     {
@@ -59,7 +57,7 @@ class AddInvoiceRequest extends FormRequest
             'items.*.item_description.required' => 'Item description is required',
             'items.*.unit_price.required' => 'Unit price is required',
             'items.*.quantity.required' => 'Quantity is required',
-            'items.*.amount.required' => 'Amount is required'
+            'items.*.amount.required' => 'Amount is required',
         ];
     }
 }

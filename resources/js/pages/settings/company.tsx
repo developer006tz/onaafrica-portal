@@ -4,12 +4,10 @@ import { Head, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
 import HeadingSmall from '@/components/heading-small';
-import InputError from '@/components/input-error';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import { FormActionButton, FormFileInput, FormInput } from '@/components/form';
+import { Check } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -26,7 +24,12 @@ export default function CompanyUpdate() {
         tin: company.tin,
         vrn: company.vrn,
         country: company.country,
+        logo: company.logo || null,
     });
+
+    const handleFileChange = (files: File[] | null) => {
+        setData('logo', files?.[0] || null);
+      };
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -46,65 +49,78 @@ export default function CompanyUpdate() {
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="name">Company Name</Label>
-
-                            <Input
-                                id="name"
-                                className="mt-1 block w-full"
+                            
+                            <FormInput
+                                id='name'
+                                label="Company Name"
                                 value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
-                                required
+                                onChange={e => setData('name', e.target.value)}
+                                error={errors.name}
                                 placeholder="Company Name"
-                            />
+                                className='mt-1 block w-full'
+                             />
 
-                            <InputError className="mt-2" message={errors.name} />
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="tin">TIN</Label>
-
-                            <Input
-                                id="tin"
-                                className="mt-1 block w-full"
-                                value={data.tin}
-                                onChange={(e) => setData('tin', e.target.value)}
-                                placeholder="Tax Identification Number"
+                        <FormInput
+                            id='tin'
+                            label="TIN Number"
+                            value={data.tin}
+                            onChange={e => setData('tin', e.target.value)}
+                            error={errors.tin}
+                            placeholder="Company Tin"
+                            className='mt-1 block w-full'
                             />
-
-                            <InputError className="mt-2" message={errors.tin} />
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="vrn">VRN</Label>
-
-                            <Input
-                                id="vrn"
-                                className="mt-1 block w-full"
-                                value={data.vrn}
-                                onChange={(e) => setData('vrn', e.target.value)}
-                                placeholder="VAT Registration Number"
+                        <FormInput
+                            id='vrn'
+                            label="VRN Number"
+                            value={data.vrn}
+                            onChange={e => setData('vrn', e.target.value)}
+                            error={errors.vrn}
+                            placeholder="Company VRN"
+                            className='mt-1 block w-full'
                             />
-
-                            <InputError className="mt-2" message={errors.vrn} />
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="country">Country</Label>
+                        <FormInput
+                            id='country'
+                            label="Country"
+                            value={data.country}
+                            onChange={e => setData('country', e.target.value)}
+                            error={errors.country}
+                            placeholder="Country"
+                            className='mt-1 block w-full'
+                        />
+                        </div>
 
-                            <Input
-                                id="country"
-                                className="mt-1 block w-full"
-                                value={data.country}
-                                onChange={(e) => setData('country', e.target.value)}
-                                placeholder="Country"
-                            />
-
-                            <InputError className="mt-2" message={errors.country} />
+                        <div className="space-y-2">
+                            <FormFileInput
+                            label="Company Logo"
+                            value={data.logo ? [data.logo] : null}
+                            onChange={handleFileChange}
+                            error={errors.logo}
+                            description="Select Image to Upload"
+                            acceptedTypes=".png,.jpg,.jpeg,.webp"
+                            helperText="PNG, JPG, JPEG or WEBP"
+                            maxFiles={1}
+                            maxSize={2 * 1024 * 1024}
+                            id="logo"
+                            className='mt-1 block w-full'
+                        />
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Button disabled={processing}>Save</Button>
-
+                            <FormActionButton
+                              label='Submit Changes'
+                              isProcessing={processing}
+                              processingLabel='Saving Changes'
+                              icon={Check}
+                             />
                             <Transition
                                 show={recentlySuccessful}
                                 enter="transition ease-in-out"

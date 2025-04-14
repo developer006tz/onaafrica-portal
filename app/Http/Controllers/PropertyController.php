@@ -19,6 +19,6 @@ class PropertyController extends Controller
 
         Property::create($validated);
 
-        return redirect()->back()->with('success','property created successfully');
+        return redirect()->back()->with('success', 'property created successfully');
     }
 }

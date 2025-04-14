@@ -11,7 +11,7 @@ export const FormLabel = ({ htmlFor, children }: { htmlFor: string, children: Re
   );
   
   export const FormMessage = ({ children }: { children: React.ReactNode }) => (
-    <p className="text-sm font-medium text-destructive">
+    <p className="text-sm font-medium text-red-600 dark:text-red-400">
       {children}
     </p>
   );

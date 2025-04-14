@@ -15,24 +15,18 @@ class Company extends Model
         'tin',
         'vrn',
         'logo',
-        'country'
+        'country',
     ];
 
     protected $keyType = 'string';
 
     public $incrementing = false;
 
-    /**
-     * Get the branches for the company.
-     */
     public function branches(): HasMany
     {
         return $this->hasMany(CompanyBranch::class);
     }
 
-    /**
-     * Get the bank accounts for the company.
-     */
     public function bankAccounts(): HasMany
     {
         return $this->hasMany(BankAccount::class);

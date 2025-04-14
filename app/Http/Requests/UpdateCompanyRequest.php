@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCompanyRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
@@ -22,7 +21,6 @@ class UpdateCompanyRequest extends FormRequest
             'country' => 'nullable|string|max:255',
         ];
     }
-
 
     public function messages(): array
     {

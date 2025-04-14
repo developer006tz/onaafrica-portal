@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddInvoiceRequest;
 use App\Models\CompanyBranch;
-use Illuminate\Http\Request;
-use App\Models\Invoice;
-use App\Models\InvoiceItem;
 use App\Models\Customer;
-use Inertia\Inertia;
+use App\Models\Invoice;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class InvoiceController extends Controller
 {
@@ -22,7 +21,7 @@ class InvoiceController extends Controller
             'branch',
             'status',
             'is_achieved',
-            'company_branch_id'
+            'company_branch_id',
         ];
         $invoices = Invoice::query()
             ->filter($request->only($filterParams))
@@ -80,7 +79,7 @@ class InvoiceController extends Controller
     public function showInvoice($invoiceId)
     {
         $invoice = Invoice::findOrFail($invoiceId);
-        
+
         return Inertia::render('invoices/show', [
             'invoice' => [
                 'id' => $invoice->id,
@@ -127,6 +126,7 @@ class InvoiceController extends Controller
     public function createInvoice()
     {
         $customers = Customer::all();
+
         return Inertia::render('invoices/create', [
             'customers' => $customers,
             'companyBranches' => CompanyBranch::select('id', 'name')->get(),
@@ -163,7 +163,7 @@ class InvoiceController extends Controller
                     'item_description' => trim($item['item_description']),
                     'unit_price' => trim($item['unit_price']),
                     'quantity' => trim($item['quantity']),
-                    'amount' => trim($item['amount'])
+                    'amount' => trim($item['amount']),
                 ]);
             }
 
@@ -174,7 +174,8 @@ class InvoiceController extends Controller
 
         } catch (\Exception $e) {
             \DB::rollBack();
-            return back()->withErrors(['error' => 'Failed to create invoice: ' . $e->getMessage()])
+
+            return back()->withErrors(['error' => 'Failed to create invoice: '.$e->getMessage()])
                 ->withInput();
         }
     }
