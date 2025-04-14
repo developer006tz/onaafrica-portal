@@ -22,10 +22,12 @@ class CompanyController extends Controller
     public function updateCompany(UpdateCompanyRequest $request, $companyId)
     {
         $company = Company::findOrFail($companyId);
+
         $validated = $request->validated();
-        $validated['logo'] = $request->hasFile('logo')
-            ? uploadFile($request->file('logo'))
-            : null;
+        if ($request->hasFile('logo')) {
+            $validated['logo'] = uploadFile($request->file('logo'));
+        }
+
         $company->update($validated);
 
         return redirect()->back()->with('success', 'Company updated successfully');
@@ -35,9 +37,9 @@ class CompanyController extends Controller
     {
         $companyBranch = CompanyBranch::findOrFail($companyBranchId);
         $validated = $request->validated();
-        $validated['logo'] = $request->hasFile('logo')
-            ? uploadFile($request->file('logo'))
-            : null;
+        if ($request->hasFile('stamp')) {
+            $validated['stamp'] = uploadFile($request->file('stamp'));
+        }
         $companyBranch->update($validated);
 
         return redirect()->back()->with('success', 'Company Branch updated successfully');
