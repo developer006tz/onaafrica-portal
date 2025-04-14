@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Company extends Model
 {
@@ -30,5 +31,15 @@ class Company extends Model
     public function bankAccounts(): HasMany
     {
         return $this->hasMany(BankAccount::class);
+    }
+
+    /**
+     * Get the logo attribute with asset domain appended.
+     */
+    protected function logo(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? assetDomain() . $value : null,
+        );
     }
 }

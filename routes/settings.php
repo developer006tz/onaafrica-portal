@@ -21,6 +21,6 @@ Route::middleware('auth')->group(function () {
     })->name('appearance');
 
     Route::get('settings/company', [CompanyController::class, 'index'])->name('company.edit');
-    Route::put('settings/company/{id}/update', [CompanyController::class, 'updateCompany'])->name('company.update');
+    Route::post('settings/company/{id}/update', [CompanyController::class, 'updateCompany'])->name('company.update');
     Route::put('settings/company/branch/{id}/update', [CompanyController::class, 'updateCompanyBranch'])->name('company.branch.update');
 });
