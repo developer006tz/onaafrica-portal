@@ -19,7 +19,7 @@ interface AppLayoutProps {
 }
 
 export default function AppLayout({ children, breadcrumbs, ...props }: AppLayoutProps) {
-    const { flash } = usePage<PageProps>().props;
+    const { flash,errors } = usePage<PageProps>().props;
   
     useEffect(() => {
       if (flash?.success) {
@@ -31,7 +31,14 @@ export default function AppLayout({ children, breadcrumbs, ...props }: AppLayout
       if (flash?.warning) {
         toast.error(flash.warning);
       }
-    }, [flash]);
+      if (errors) {
+        for (const [key, value] of Object.entries(errors)) {
+          if (typeof value === 'string') {
+            toast.error(value);
+          }
+        }
+      }
+    }, [flash, errors]);
   
     return (
       <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>

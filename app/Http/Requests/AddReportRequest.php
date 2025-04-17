@@ -6,12 +6,10 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AddReportRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
     }
-
 
     public function rules(): array
     {
@@ -25,7 +23,7 @@ class AddReportRequest extends FormRequest
             'time_to' => ['nullable', 'date_format:H:i', 'after:time_from'],
             'description' => ['nullable', 'string'],
             'status' => ['required', 'in:COMPLETE,PENDING,CANCELLED'],
-            'date' => ['required', 'date']
+            'date' => ['required', 'date'],
         ];
     }
 }

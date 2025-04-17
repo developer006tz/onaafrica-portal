@@ -46,11 +46,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'phone' => '255746828843',
-            'role_id' =>  Role::where('name','manager')->first()->id ,
-            'staff_number' =>  'ONA-0001' ,
+            'role_id' => Role::where('name', 'manager')->first()->id,
+            'staff_number' => 'ONA-0001',
             'password' => Hash::make('password'),
         ]);
-        
+
         return $users;
     }
 

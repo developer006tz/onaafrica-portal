@@ -1,5 +1,8 @@
+import { getStatusBadgeClass } from '@/lib/global-helper';
+import { formatPhones, getTimeSpent } from '@/lib/helpers';
 import { type Report } from '@/types';
 import { Link } from '@inertiajs/react';
+import { Clock } from 'lucide-react';
 
 interface ReportCardProps {
     report: Report;
@@ -12,32 +15,102 @@ export default function ReportCard({ report, isPreviousReport = false }: ReportC
             key={report.id}
             className={`group border-border bg-card text-card-foreground hover:border-border/80 relative overflow-hidden rounded-xl border transition-all hover:shadow-xl ${isPreviousReport ? 'opacity-90' : ''}`}
         >
-            <div className="border-border/50 flex flex-wrap items-center gap-2 border-b p-3 sm:p-5">
-                <span className="bg-muted text-muted-foreground ring-border/20 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset">
-                    Report #{report.reference_number}
-                </span>
-                <span
-                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-sm ${
-                        report.status === 'COMPLETE'
-                            ? 'bg-green-50 text-green-700 ring-1 ring-green-600/20 ring-inset'
-                            : report.status === 'PENDING'
-                              ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-600/20 ring-inset'
-                              : 'bg-muted text-muted-foreground ring-border/20 ring-1 ring-inset'
-                    }`}
-                >
-                    {report.status}
-                </span>
-                <span className="text-muted-foreground ml-auto text-xs font-medium sm:text-sm">{report.date}</span>
-            </div>
-            <div className="p-4 sm:p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center">
-                    <div className="mb-3 flex-1 sm:mb-0">
-                        <h3 className="text-foreground mb-1 text-base font-semibold sm:mb-2 sm:text-lg">{report.customer}</h3>
+            {/* Mobile view - Card layout */}
+            <div className="md:hidden">
+                <div className="border-border/50 flex flex-wrap items-center gap-2 border-b p-3">
+                    <span className="bg-muted text-muted-foreground ring-border/20 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset">
+                        #{report.reference_number}
+                    </span>
+                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-sm ${getStatusBadgeClass(report.status)}`}>
+                        {report.status}
+                    </span>
+                    <span className="text-muted-foreground ml-auto text-xs font-medium">{report.date}</span>
+                </div>
+                <div className="space-y-3 p-4">
+                    <div>
+                        <p className="text-sm font-medium">Customer:</p>
+                        <h3 className="text-foreground text-base font-semibold">{report.customer}</h3>
+                        <p className="mt-2 text-sm font-medium">Property Type:</p>
+                        <p className="text-muted-foreground text-sm">{report.property_type}</p>
+                    </div>
+                    <div>
+                        <p className="text-sm font-medium">Address:</p>
                         <p className="text-muted-foreground line-clamp-2 text-sm">{report.address}</p>
                     </div>
-                    <div className="w-full sm:ml-4 sm:w-auto sm:flex-shrink-0">
-                        <Link href={route('reports.show', report.id)} className="custom-outline-button">
+                    <div>
+                        <p className="text-sm font-medium">Phone:</p>
+                        <p className="text-muted-foreground text-sm">{formatPhones(report.customer_phones)}</p>
+                    </div>
+                    <div>
+                        <p className="text-sm font-medium">Time Spent:</p>
+                        <p className="text-muted-foreground flex items-center gap-1 text-sm">
+                            <Clock className="h-3 w-3" /> {getTimeSpent(report.time_from, report.time_to)}
+                        </p>
+                    </div>
+                    {report.description && (
+                        <div>
+                            <p className="text-sm font-medium">Remarks:</p>
+                            <p className="text-muted-foreground line-clamp-2 text-sm">{report.description}</p>
+                        </div>
+                    )}
+                    <div className="pt-2">
+                        <Link href={route('reports.show', report.id)} className="custom-outline-button block w-full text-center">
                             Open Report
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            {/* Desktop view - Table/Grid layout */}
+            <div className="hidden md:block">
+                {/* Column Headers */}
+                <div className="border-border/50 grid grid-cols-8 gap-4 border-b px-4 pt-4 pb-2 font-medium">
+                    <div className="text-muted-foreground text-xs">Reference</div>
+                    <div className="text-muted-foreground text-xs">Customer</div>
+                    <div className="text-muted-foreground text-xs">Property Type</div>
+                    <div className="text-muted-foreground text-xs">Address</div>
+                    <div className="text-muted-foreground text-xs">Phone</div>
+                    <div className="text-muted-foreground text-xs">Time Spent</div>
+                    <div className="text-muted-foreground text-xs">Status</div>
+                    <div className="text-muted-foreground text-xs">Remarks</div>
+                </div>
+                <div className="grid grid-cols-8 items-center gap-4 p-4">
+                    {/* Column 1: Reference Number */}
+                    <div className="text-sm">
+                        <span className="bg-muted text-muted-foreground ring-border/20 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset">
+                            #{report.reference_number}
+                        </span>
+                    </div>
+
+                    {/* Column 2: Customer */}
+                    <div className="text-sm font-medium">{report.customer}</div>
+
+                    {/* Column 3: Property Type */}
+                    <div className="text-muted-foreground text-sm">{report.property_type}</div>
+
+                    {/* Column 4: Address */}
+                    <div className="text-muted-foreground line-clamp-1 text-sm">{report.address}</div>
+
+                    {/* Column 5: Phone Number */}
+                    <div className="text-muted-foreground text-sm">{formatPhones(report.customer_phones)}</div>
+
+                    {/* Column 6: Time Spent */}
+                    <div className="text-muted-foreground flex items-center gap-1 text-sm">
+                        <Clock className="h-3 w-3" /> {getTimeSpent(report.time_from, report.time_to)}
+                    </div>
+
+                    {/* Column 7: Status */}
+                    <div>
+                        <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-sm ${getStatusBadgeClass(report.status)}`}>
+                            {report.status}
+                        </span>
+                    </div>
+
+                    {/* Column 8: Description/Actions */}
+                    <div className="flex items-center justify-between gap-2">
+                        <span className="text-muted-foreground line-clamp-1 flex-1 text-sm">{report.description || 'No description'}</span>
+                        <Link href={route('reports.show', report.id)} className="custom-outline-button px-2 py-1 text-xs whitespace-nowrap">
+                            Open
                         </Link>
                     </div>
                 </div>

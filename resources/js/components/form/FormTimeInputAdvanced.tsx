@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Clock } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-interface FormTimeInputProps {
+interface FormTimeInputAdvancedProps {
     label: string;
     error?: string;
     description?: string;
@@ -26,7 +26,7 @@ interface TimePreset {
     value: string;
 }
 
-export function FormTimeInput({
+export function FormTimeInputAdvanced({
     label,
     id,
     error,
@@ -37,7 +37,7 @@ export function FormTimeInput({
     disabled,
     placeholder = 'Select time',
     use12HourFormat = false,
-}: FormTimeInputProps) {
+}: FormTimeInputAdvancedProps) {
     const [time, setTime] = useState<string>(value || '');
     const [open, setOpen] = useState(false);
     const [format, setFormat] = useState<TimeFormat>(use12HourFormat ? '12h' : '24h');

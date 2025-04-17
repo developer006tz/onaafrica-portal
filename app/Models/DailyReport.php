@@ -12,7 +12,7 @@ class DailyReport extends Model
 
     /**
      * The "booted" method of the model.
-     * 
+     *
      * @return void
      */
     protected static function boot()
@@ -20,7 +20,7 @@ class DailyReport extends Model
         parent::boot();
 
         static::creating(function ($report) {
-            if (!$report->reference_number) {
+            if (! $report->reference_number) {
                 $report->reference_number = static::generateReferenceNumber();
             }
         });
@@ -28,8 +28,6 @@ class DailyReport extends Model
 
     /**
      * Generate a unique reference number for the report.
-     * 
-     * @return string
      */
     protected static function generateReferenceNumber(): string
     {
@@ -44,7 +42,7 @@ class DailyReport extends Model
             $nextNumber = $lastNumber + 1;
         }
 
-        return 'REP-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+        return 'REP-'.str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
     protected $fillable = [
@@ -58,7 +56,7 @@ class DailyReport extends Model
         'time_to',
         'description',
         'status',
-        'date'
+        'date',
     ];
 
     protected $keyType = 'string';
@@ -98,8 +96,8 @@ class DailyReport extends Model
 
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where(function ($query) use ($search) {
-                $query->where('address', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
+                $query->where('address', 'like', '%'.$search.'%')
+                    ->orWhere('description', 'like', '%'.$search.'%');
             });
         });
 

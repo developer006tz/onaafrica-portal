@@ -69,6 +69,19 @@ export interface Customer {
     created_at: string;
 }
 
+export interface CompanyBranch {
+    id: string;
+    name: string;
+    address?: string;
+    address_two?: string;
+    phones?: string[];
+    city?: string;
+    email?: string;
+    contact_person?: string;
+    contact_number?: string;
+    stamp?: string | null;
+}
+
 export interface ButonVariant {
     buttonVariant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 }
@@ -78,7 +91,7 @@ export interface Report {
     reference_number: string;
     staff_id: string;
     customer_id: string;
-    property_id: string;
+    property_type: string;
     address: string;
     customer_phones?: string[];
     time_from?: string;
@@ -106,4 +119,55 @@ export interface ReportsData {
 
 export interface PreviousReportData {
     reports: Report[];
+}
+
+export interface Invoice {
+    id: string;
+    invoice_number: string;
+    invoice_type: string;
+    issue_date: string;
+    sub_total: string;
+    vat_rate: string;
+    vat_type: string;
+    vat_amount: string;
+    total_amount: string;
+    delivery_timeline: string;
+    payment_terms: string;
+    delivery_location: string;
+    company_branch: string;
+    status: string;
+    achieved: string;
+    created_at: string;
+    customer: {
+        id: string;
+        name: string;
+        phone: string;
+        email: string;
+        address: string;
+    };
+    created_by: {
+        id: string;
+        name: string;
+        email: string;
+    };
+    invoice_items: Array<{
+        item_description: string;
+        unit_price: number;
+        quantity: number;
+        amount: number;
+    }>;
+    items_count: number;
+}
+
+export interface InvoicesData {
+    data: Invoice[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+    links: Array<{
+        url: string | null;
+        label: string;
+        active: boolean;
+    }>;
 }
