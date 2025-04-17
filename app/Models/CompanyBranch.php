@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,11 +32,22 @@ class CompanyBranch extends Model
         'phones' => 'array',
     ];
 
-    /**
-     * Get the company that owns the branch.
-     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function phones(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? json_decode($value) : [],
+        );
+    }
+
+    protected function stamp(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? assetDomain().$value : null,
+        );
     }
 }

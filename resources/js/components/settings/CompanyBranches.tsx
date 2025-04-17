@@ -17,6 +17,7 @@ interface BranchFormData {
     contact_number: string | null;
     stamp: File | null;
     _method: 'put';
+    [key: string]: any;
 }
 
 function BranchForm({ branch }: { branch: CompanyBranch }) {
@@ -33,11 +34,10 @@ function BranchForm({ branch }: { branch: CompanyBranch }) {
         _method: 'put',
     });
 
-    const [stampPreview, setStampPreview] = useState<string | null>(branch.stamp ? `/storage/${branch.stamp}` : null);
+    const [stampPreview, setStampPreview] = useState<string | null>(branch.stamp ? branch.stamp : null);
     const currentStamp = data.stamp ? URL.createObjectURL(data.stamp) : stampPreview;
 
     useEffect(() => {
-        // Clean up object URL
         return () => {
             if (data.stamp && currentStamp && currentStamp.startsWith('blob:')) {
                 URL.revokeObjectURL(currentStamp);

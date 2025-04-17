@@ -17,14 +17,12 @@ class UpdateCompanyBranchRequest extends FormRequest
             'name' => 'required|string|max:255',
             'address' => 'required|string',
             'address_two' => 'nullable|string',
-            'phones' => 'nullable|array',
-            'phones.*' => 'string',
+            'phones' => 'nullable|string',
             'city' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
             'contact_person' => 'nullable|string|max:255',
             'contact_number' => 'nullable|string|max:255',
-            'stamp' => 'nullable|string|max:255',
-            'company_id' => 'required|string|exists:companies,id',
+            'stamp' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ];
     }
 
@@ -35,10 +33,9 @@ class UpdateCompanyBranchRequest extends FormRequest
             'address.required' => 'The branch address is required.',
             'city.required' => 'The city is required.',
             'email.email' => 'Please provide a valid email address.',
-            'phones.array' => 'Phone numbers must be provided as an array.',
-            'phones.*.string' => 'Each phone number must be a string.',
-            'company_id.required' => 'The company ID is required.',
-            'company_id.exists' => 'The selected company does not exist.',
+            'stamp.image' => 'The stamp must be an image.',
+           'stamp.mimes' => 'The stamp must be a file of type: jpeg, jpg, png.',
+           'stamp.max' => 'The stamp may not be greater than 2048 kilobytes.',
         ];
     }
 }

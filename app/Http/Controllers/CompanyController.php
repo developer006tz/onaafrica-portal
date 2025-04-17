@@ -37,12 +37,18 @@ class CompanyController extends Controller
     {
         $companyBranch = CompanyBranch::findOrFail($companyBranchId);
         $validated = $request->validated();
+        if($request->has('phones')){
+            /*phones comes in comma separated string but its json dataype in db
+            so we need to convert it to array
+            example: ["+255 757 333 555", "+255 711 400 200"]*/
+            $validated['phones'] = json_encode($request->phones);
+        }
         if ($request->hasFile('stamp')) {
             $validated['stamp'] = uploadFile($request->file('stamp'));
         }
         $companyBranch->update($validated);
 
-        return redirect()->back()->with('success', 'Company Branch updated successfully');
+        return redirect()->back()->with('success', $companyBranch->name.' updated successfully');
 
     }
 }
