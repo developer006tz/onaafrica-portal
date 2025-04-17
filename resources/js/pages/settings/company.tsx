@@ -8,6 +8,7 @@ import HeadingSmall from '@/components/heading-small';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { Check } from 'lucide-react';
+import CompanyBranches from '@/components/settings/CompanyBranches';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -26,6 +27,7 @@ export default function CompanyUpdate() {
         country: company.country,
         logo: null as File | null,
     });
+
 
     const logoPreview = data.logo ? URL.createObjectURL(data.logo) : null;
 
@@ -162,6 +164,11 @@ export default function CompanyUpdate() {
                             </Transition>
                         </div>
                     </form>
+
+                    <HeadingSmall title="Company Branches Information" description="Update company Branches Informations" />
+
+                    <CompanyBranches />
+
                 </div>
             </SettingsLayout>
         </AppLayout>

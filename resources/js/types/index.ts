@@ -72,6 +72,14 @@ export interface Customer {
 export interface CompanyBranch {
     id: string;
     name: string;
+    address?: string;
+    address_two?: string;
+    phones?: string[];
+    city?: string;
+    email?: string;
+    contact_person?: string;
+    contact_number?: string;
+    stamp?: string | null;
 }
 
 export interface ButonVariant {
