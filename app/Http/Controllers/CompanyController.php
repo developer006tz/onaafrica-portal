@@ -15,7 +15,7 @@ class CompanyController extends Controller
 
         return Inertia::render('settings/company', [
             'company' => Company::first(),
-            'branches' => CompanyBranch::where('company_id', Company::first()->id)->get(),
+            'branches' => CompanyBranch::where('company_id', Company::first()->id)->orderBy('id','ASC')->get(),
         ]);
     }
 
@@ -37,18 +37,21 @@ class CompanyController extends Controller
     {
         $companyBranch = CompanyBranch::findOrFail($companyBranchId);
         $validated = $request->validated();
-        if($request->has('phones')){
-            /*phones comes in comma separated string but its json dataype in db
-            so we need to convert it to array
-            example: ["+255 757 333 555", "+255 711 400 200"]*/
-            $validated['phones'] = json_encode($request->phones);
+        if ($request->filled('phones')) {
+            $phoneNumbers = explode(',', $request->phones);
+            $phoneNumbers = array_filter(array_map('trim', $phoneNumbers));
+            $validated['phones'] = json_encode(array_values($phoneNumbers));
+        } elseif ($request->has('phones')) {
+            $validated['phones'] = null;
         }
+
+        // dd($validated['phones']);
         if ($request->hasFile('stamp')) {
             $validated['stamp'] = uploadFile($request->file('stamp'));
         }
         $companyBranch->update($validated);
 
-        return redirect()->back()->with('success', $companyBranch->name.' updated successfully');
+        return redirect()->back()->with('success', $companyBranch->name . ' updated successfully');
 
     }
 }

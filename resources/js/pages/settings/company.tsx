@@ -139,7 +139,7 @@ export default function CompanyUpdate() {
                                             onChange={handleFileChange}
                                             error={errors.logo}
                                             description="Select a new logo to replace the current one"
-                                            acceptedTypes=".png,.jpg,.jpeg,.webp"
+                                            acceptedTypes="image/png,image/jpg,image/jpeg,image/webp"
                                             helperText="PNG, JPG, JPEG or WEBP"
                                             maxFiles={1}
                                             maxSize={2 * 1024 * 1024}

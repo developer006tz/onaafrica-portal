@@ -1,5 +1,6 @@
 import { FormActionButton, FormFileInput, FormInput, FormTextarea } from '@/components/form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { formatPhonesCommaReparated } from '@/lib/helpers';
 import { CompanyBranch } from '@/types';
 import { Transition } from '@headlessui/react';
 import { useForm, usePage } from '@inertiajs/react';
@@ -25,7 +26,7 @@ function BranchForm({ branch }: { branch: CompanyBranch }) {
         name: branch.name || '',
         address: branch.address || '',
         address_two: branch.address_two || '',
-        phones: Array.isArray(branch.phones) ? branch.phones.join(', ') : '',
+        phones: formatPhonesCommaReparated(branch.phones),
         city: branch.city || '',
         email: branch.email || '',
         contact_person: branch.contact_person || '',
@@ -173,7 +174,7 @@ function BranchForm({ branch }: { branch: CompanyBranch }) {
                                         onChange={handleFileChange}
                                         error={errors.stamp}
                                         description="Select a new stamp image"
-                                        acceptedTypes=".png,.jpg,.jpeg,.webp"
+                                        acceptedTypes="image/png,image/jpg,image/jpeg,image/webp"
                                         helperText="PNG, JPG, JPEG or WEBP (Max 2MB)"
                                         maxFiles={1}
                                         maxSize={2 * 1024 * 1024}
